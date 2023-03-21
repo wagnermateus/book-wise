@@ -12,6 +12,7 @@ import {
   ImageContainer,
   OptionsContainer,
 } from "./styles";
+import { signIn } from "next-auth/react";
 
 export default function Login() {
   return (
@@ -21,6 +22,7 @@ export default function Login() {
           src={loginImg}
           alt="Mulher deitada a ler um livro"
           quality={100}
+          priority
         />
       </ImageContainer>
       <OptionsContainer>
@@ -30,11 +32,11 @@ export default function Login() {
             <span>Faça seu login ou acesse como visitante.</span>
           </Header>
           <Buttons>
-            <Button>
+            <Button onClick={() => signIn("google")}>
               <Image src={googleIcon} alt="Google icon" />
               Entrar com Google
             </Button>
-            <Button>
+            <Button onClick={() => signIn("github")}>
               <Image src={githubIcon} alt="Google icon" />
               Entrar com GitHub
             </Button>
