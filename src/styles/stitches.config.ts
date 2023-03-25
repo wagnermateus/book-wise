@@ -26,7 +26,7 @@ export const {
       7: "1.75rem",
       8: "2rem",
       10: "2.5rem",
-    },
+    } as const,
 
     fontSizes: {
       xs: "0.75rem",
@@ -41,14 +41,14 @@ export const {
       regular: "400",
       medium: "500",
       bold: "700",
-    },
+    } as const,
 
     lineHeights: {
       shorter: "125%",
       short: "140%",
       base: "160%",
       tall: "180%",
-    },
+    } as const,
 
     colors: {
       white: "#FFFFFF",
