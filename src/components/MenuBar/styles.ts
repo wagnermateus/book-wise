@@ -17,6 +17,7 @@ export const Container = styled("nav", {
 
 export const NavList = styled("ul", {
   marginTop: "4rem",
+  marginBottom: "39.875rem",
 
   display: "flex",
   flexDirection: "column",
@@ -67,9 +68,7 @@ export const LinkComponent = styled(Link, {
   },
 });
 
-export const UserSession = styled("div", {
-  marginTop: "39.875rem",
-
+export const UserInfo = styled("div", {
   display: "flex",
   alignItems: "center",
   gap: "$3",
@@ -79,4 +78,21 @@ export const UserSession = styled("div", {
     fontSize: "$sm",
     lineHeight: "$base",
   },
+
+  svg: {
+    cursor: "pointer",
+  },
+});
+
+export const LoginButton = styled("button", {
+  all: "unset",
+  cursor: "pointer",
+
+  display: "flex",
+  alignItems: "center",
+  gap: "$3",
+
+  color: "$gray200",
+  fontWeight: "$bold",
+  lineHeight: "$base",
 });

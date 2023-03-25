@@ -3,21 +3,25 @@ import {
   ActiveLinkBorder,
   Container,
   LinkComponent,
+  LoginButton,
   NavItem,
   NavList,
-  UserSession,
+  UserInfo,
 } from "./styles";
 import bookWiseLogo from "../../assets/BookWiseLogo.png";
 import { Binoculars, ChartLineUp, SignIn, SignOut, User } from "phosphor-react";
 import { useRouter } from "next/router";
 import { UserAvatar } from "../UserAvatar";
+import { GetServerSideProps } from "next";
+import { getSession, signOut, useSession } from "next-auth/react";
 
 export function MenuBar() {
+  const { data: session, status } = useSession();
   const router = useRouter();
 
   return (
     <Container>
-      <Image src={bookWiseLogo} alt="Book Wise" />
+      <Image src={bookWiseLogo} alt="Book Wise" quality={100} priority />
       <NavList>
         <NavItem>
           <ActiveLinkBorder
@@ -56,17 +60,34 @@ export function MenuBar() {
           </LinkComponent>
         </NavItem>
       </NavList>
+      {status === "authenticated" ? (
+        <UserInfo>
+          <UserAvatar src={session?.user.avatar_url} size={32} alt="" />
+          <span>{session?.user.name}</span>
 
-      <UserSession>
-        <UserAvatar
-          src="https://github.com/wagnermateus.png"
-          size={32}
-          alt=""
-        />
-        <span>Wagner</span>
-
-        <SignOut size={20} color="#F75A68" />
-      </UserSession>
+          <SignOut
+            color="#F75A68"
+            size={20}
+            alt="Finalizar sessão"
+            onClick={() => signOut({ callbackUrl: "http://localhost:3000" })}
+          />
+        </UserInfo>
+      ) : (
+        <LoginButton>
+          Fazer Login
+          <SignIn size={20} color="#50B2C0" />
+        </LoginButton>
+      )}
     </Container>
   );
 }
+
+export const getStaticProps: GetServerSideProps = async (context) => {
+  const session = await getSession(context);
+
+  return {
+    props: {
+      session,
+    },
+  };
+};

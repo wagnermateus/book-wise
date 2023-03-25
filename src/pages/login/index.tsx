@@ -13,8 +13,11 @@ import {
   OptionsContainer,
 } from "./styles";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/router";
 
 export default function Login() {
+  const router = useRouter();
+
   return (
     <Container>
       <ImageContainer>
@@ -40,7 +43,7 @@ export default function Login() {
               <Image src={githubIcon} alt="Google icon" />
               Entrar com GitHub
             </Button>
-            <Button>
+            <Button onClick={() => router.push("/home")}>
               <Image src={rocketIcon} alt="Google icon" />
               Acessar como visitante
             </Button>
