@@ -13,6 +13,7 @@ export default function Home() {
           <h2>Início</h2>
         </Header>
         <Text>Avaliações mais recentes</Text>
+
         <Ratings>
           <RatingCard />
           <RatingCard />

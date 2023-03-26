@@ -12,6 +12,7 @@ import {
   UserName,
   UserNameAndRatingDate,
 } from "./styles";
+import { RatingStars } from "../RatingStars";
 
 export function RatingCard() {
   return (
@@ -26,6 +27,7 @@ export function RatingCard() {
           <UserName>Jaxson Dias</UserName>
           <RatingDate>Hoje</RatingDate>
         </UserNameAndRatingDate>
+        <RatingStars starSize={17} rating={3} />
       </Header>
       <Book>
         <CoverContainer>
