@@ -1,9 +1,30 @@
 import { MenuBar } from "@/components/MenuBar";
 import { RatingCard } from "@/components/RatingCard";
+import { api } from "@/lib/axios";
+import { GetStaticProps } from "next";
 import { ChartLineUp } from "phosphor-react";
 import { Container, Content, Header, Ratings, Text } from "./styles";
 
-export default function Home() {
+interface BookRatingProps {
+  bookRating: [
+    {
+      user: {
+        avatar_url: string;
+        name: string;
+      };
+      book: {
+        author: string;
+        cover_url: string;
+        name: string;
+      };
+      rate: number;
+      description: string;
+      created_at: Date;
+    }
+  ];
+}
+
+export default function Home({ bookRating }: BookRatingProps) {
   return (
     <Container>
       <MenuBar />
@@ -15,11 +36,35 @@ export default function Home() {
         <Text>Avaliações mais recentes</Text>
 
         <Ratings>
-          <RatingCard />
-          <RatingCard />
-          <RatingCard />
+          {bookRating.map((rating) => {
+            return (
+              <RatingCard
+                key={rating.description}
+                bookAuthor={rating.book.author}
+                bookCoverUrl={rating.book.cover_url}
+                bookTitle={rating.book.name}
+                commentDate={rating.created_at}
+                rating={rating.rate}
+                ratingComment={rating.description}
+                userAvtarUrl={rating.user.avatar_url}
+                userName={rating.user.name}
+              />
+            );
+          })}
         </Ratings>
       </Content>
     </Container>
   );
 }
+
+export const getStaticProps: GetStaticProps = async () => {
+  const response = await api.get("book/rating");
+  const bookRating = response.data.rating;
+
+  return {
+    props: {
+      bookRating,
+    },
+    revalidate: 60 * 60 * 1,
+  };
+};

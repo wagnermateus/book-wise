@@ -1,7 +1,10 @@
 import Image from "next/image";
 import { UserAvatar } from "../UserAvatar";
-import bookCover from "../../assets/Book.png";
+import { formatDistanceToNow } from "date-fns";
+import ptBR from "date-fns/locale/pt-BR";
+
 import {
+  AvatarImgContainer,
   Book,
   Container,
   CoverContainer,
@@ -14,36 +17,54 @@ import {
 } from "./styles";
 import { RatingStars } from "../RatingStars";
 
-export function RatingCard() {
+type RatingCardProps = {
+  userAvtarUrl: string;
+  userName: string;
+  rating: number;
+  bookCoverUrl: string;
+  bookTitle: string;
+  bookAuthor: string;
+  ratingComment: string;
+  commentDate: Date;
+};
+
+export function RatingCard({
+  bookAuthor,
+  bookCoverUrl,
+  bookTitle,
+  rating,
+  ratingComment,
+  userAvtarUrl,
+  userName,
+  commentDate,
+}: RatingCardProps) {
+  const commentDateFormatted = formatDistanceToNow(new Date(commentDate), {
+    addSuffix: true,
+    locale: ptBR,
+  });
+
   return (
     <Container>
       <Header>
-        <UserAvatar
-          size={50}
-          alt="User profile picture"
-          src={"http://github.com/wagnermateus.png"}
-        />
+        <AvatarImgContainer>
+          <UserAvatar size={38} alt="User profile picture" src={userAvtarUrl} />
+        </AvatarImgContainer>
         <UserNameAndRatingDate>
-          <UserName>Jaxson Dias</UserName>
-          <RatingDate>Hoje</RatingDate>
+          <UserName>{userName}</UserName>
+          <RatingDate>{commentDateFormatted}</RatingDate>
         </UserNameAndRatingDate>
-        <RatingStars starSize={17} rating={3} />
+        <RatingStars starSize={17} rating={rating} />
       </Header>
       <Book>
         <CoverContainer>
-          <Image src={bookCover} alt="Book Cover" />
+          <Image src={bookCoverUrl} alt="Book Cover" width={108} height={152} />
         </CoverContainer>
         <Details>
           <TitleAndAuthor>
-            <strong>O Hobbit</strong>
-            <span>J.R.R. Tolkien</span>
+            <strong>{bookTitle}</strong>
+            <span>{bookAuthor}</span>
           </TitleAndAuthor>
-          <p>
-            Semper et sapien proin vitae nisi. Feugiat neque integer donec et
-            aenean posuere amet ultrices. Cras fermentum id pulvinar varius leo
-            a in. Amet libero pharetra nunc elementum fringilla velit ipsum. Sed
-            vulputate massa velit nibh...
-          </p>
+          <p>{ratingComment}</p>
         </Details>
       </Book>
     </Container>

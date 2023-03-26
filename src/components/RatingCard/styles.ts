@@ -16,7 +16,14 @@ export const Header = styled("header", {
   display: "flex",
   gap: "$4",
 });
-
+export const AvatarImgContainer = styled("div", {
+  width: "2.5rem",
+  height: "2.5rem",
+  img: {
+    width: "100%",
+    height: "100%",
+  },
+});
 export const UserNameAndRatingDate = styled("div", {
   display: "flex",
   flex: 1,

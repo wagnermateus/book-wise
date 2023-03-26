@@ -10,14 +10,7 @@ type UserAvatarProps = {
 export function UserAvatar({ size, src, alt }: UserAvatarProps) {
   return (
     <Container>
-      <Image
-        src={src}
-        alt={alt}
-        width={size}
-        height={size}
-        priority
-        quality={100}
-      />
+      <Image src={src} alt={alt} width={size} height={size} />
     </Container>
   );
 }

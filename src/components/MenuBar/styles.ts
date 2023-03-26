@@ -77,6 +77,7 @@ export const UserInfo = styled("div", {
     color: "$gray200",
     fontSize: "$sm",
     lineHeight: "$base",
+    flex: 1,
   },
 
   svg: {

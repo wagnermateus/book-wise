@@ -47,7 +47,7 @@ export function MenuBar() {
             Explorar
           </LinkComponent>
         </NavItem>
-        {status === "authenticated" ?? (
+        {status === "authenticated" ? (
           <NavItem>
             <ActiveLinkBorder
               active={router.pathname == "/profile" ? true : false}
@@ -60,11 +60,15 @@ export function MenuBar() {
               Perfil
             </LinkComponent>
           </NavItem>
+        ) : (
+          <></>
         )}
       </NavList>
       {status === "authenticated" ? (
         <UserInfo>
-          <UserAvatar src={session?.user.avatar_url} size={32} alt="" />
+          <div>
+            <UserAvatar src={session?.user.avatar_url} size={32} alt="" />
+          </div>
           <span>{session?.user.name}</span>
 
           <SignOut
