@@ -47,18 +47,20 @@ export function MenuBar() {
             Explorar
           </LinkComponent>
         </NavItem>
-        <NavItem>
-          <ActiveLinkBorder
-            active={router.pathname == "/profile" ? true : false}
-          ></ActiveLinkBorder>
-          <LinkComponent
-            href="/profile"
-            active={router.pathname == "/profile" ? true : false}
-          >
-            <User size={24} />
-            Perfil
-          </LinkComponent>
-        </NavItem>
+        {status === "authenticated" ?? (
+          <NavItem>
+            <ActiveLinkBorder
+              active={router.pathname == "/profile" ? true : false}
+            ></ActiveLinkBorder>
+            <LinkComponent
+              href="/profile"
+              active={router.pathname == "/profile" ? true : false}
+            >
+              <User size={24} />
+              Perfil
+            </LinkComponent>
+          </NavItem>
+        )}
       </NavList>
       {status === "authenticated" ? (
         <UserInfo>

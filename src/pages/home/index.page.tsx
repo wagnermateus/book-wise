@@ -1,7 +1,7 @@
 import { MenuBar } from "@/components/MenuBar";
 import { RatingCard } from "@/components/RatingCard";
 import { ChartLineUp } from "phosphor-react";
-import { Container, Content, Header, Text } from "./styles";
+import { Container, Content, Header, Ratings, Text } from "./styles";
 
 export default function Home() {
   return (
@@ -13,7 +13,11 @@ export default function Home() {
           <h2>Início</h2>
         </Header>
         <Text>Avaliações mais recentes</Text>
-        <RatingCard />
+        <Ratings>
+          <RatingCard />
+          <RatingCard />
+          <RatingCard />
+        </Ratings>
       </Content>
     </Container>
   );

@@ -7,7 +7,10 @@ import {
   CoverContainer,
   Details,
   Header,
+  RatingDate,
   TitleAndAuthor,
+  UserName,
+  UserNameAndRatingDate,
 } from "./styles";
 
 export function RatingCard() {
@@ -15,14 +18,14 @@ export function RatingCard() {
     <Container>
       <Header>
         <UserAvatar
-          size={40}
+          size={50}
           alt="User profile picture"
           src={"http://github.com/wagnermateus.png"}
         />
-        <div>
-          <span>Jaxson Dias</span>
-          <span>Hoje</span>
-        </div>
+        <UserNameAndRatingDate>
+          <UserName>Jaxson Dias</UserName>
+          <RatingDate>Hoje</RatingDate>
+        </UserNameAndRatingDate>
       </Header>
       <Book>
         <CoverContainer>

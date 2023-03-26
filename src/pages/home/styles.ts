@@ -20,3 +20,9 @@ export const Text = styled("span", {
   fontSize: "$sm",
   lineHeight: "$base",
 });
+
+export const Ratings = styled("article", {
+  display: "flex",
+  flexDirection: "column",
+  gap: "$3",
+});
