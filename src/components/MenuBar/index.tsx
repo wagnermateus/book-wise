@@ -79,7 +79,7 @@ export function MenuBar() {
           />
         </UserInfo>
       ) : (
-        <LoginButton>
+        <LoginButton onClick={() => router.push("http://localhost:3000")}>
           Fazer Login
           <SignIn size={20} color="#50B2C0" />
         </LoginButton>

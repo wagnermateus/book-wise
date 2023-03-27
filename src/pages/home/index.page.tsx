@@ -1,9 +1,21 @@
+import { BookCard } from "@/components/BookCard";
 import { MenuBar } from "@/components/MenuBar";
 import { RatingCard } from "@/components/RatingCard";
 import { api } from "@/lib/axios";
 import { GetStaticProps } from "next";
-import { ChartLineUp } from "phosphor-react";
-import { Container, Content, Header, Ratings, Text } from "./styles";
+import { CaretRight, ChartLineUp } from "phosphor-react";
+import {
+  Books,
+  ButtonSeeAll,
+  Container,
+  Content,
+  Header,
+  LastRatings,
+  PopularBooks,
+  PopularBooksList,
+  Ratings,
+  Text,
+} from "./styles";
 
 interface BookRatingProps {
   bookRating: [
@@ -33,25 +45,42 @@ export default function Home({ bookRating }: BookRatingProps) {
           <ChartLineUp size={24} color="#50B2C0" />
           <h2>Início</h2>
         </Header>
-        <Text>Avaliações mais recentes</Text>
+        <Books>
+          <LastRatings>
+            <Text>Avaliações mais recentes</Text>
 
-        <Ratings>
-          {bookRating.map((rating) => {
-            return (
-              <RatingCard
-                key={rating.description}
-                bookAuthor={rating.book.author}
-                bookCoverUrl={rating.book.cover_url}
-                bookTitle={rating.book.name}
-                commentDate={rating.created_at}
-                rating={rating.rate}
-                ratingComment={rating.description}
-                userAvtarUrl={rating.user.avatar_url}
-                userName={rating.user.name}
-              />
-            );
-          })}
-        </Ratings>
+            <Ratings>
+              {bookRating.map((rating) => {
+                return (
+                  <RatingCard
+                    key={rating.description}
+                    bookAuthor={rating.book.author}
+                    bookCoverUrl={rating.book.cover_url}
+                    bookTitle={rating.book.name}
+                    commentDate={rating.created_at}
+                    rating={rating.rate}
+                    ratingComment={rating.description}
+                    userAvtarUrl={rating.user.avatar_url}
+                    userName={rating.user.name}
+                  />
+                );
+              })}
+            </Ratings>
+          </LastRatings>
+          <PopularBooks>
+            <div>
+              <Text>Livros populares</Text>
+              <ButtonSeeAll>
+                Ver todos <CaretRight size={16} />
+              </ButtonSeeAll>
+            </div>
+            <PopularBooksList>
+              <BookCard />
+              <BookCard />
+              <BookCard />
+            </PopularBooksList>
+          </PopularBooks>
+        </Books>
       </Content>
     </Container>
   );

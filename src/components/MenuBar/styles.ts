@@ -49,7 +49,7 @@ export const ActiveLinkBorder = styled("div", {
 
 export const LinkComponent = styled(Link, {
   textDecoration: "none",
-  fontWeight: "$bold",
+
   color: "$gray400",
 
   display: "flex",
@@ -59,10 +59,17 @@ export const LinkComponent = styled(Link, {
     marginRight: "$3",
   },
 
+  transition: "all 0.5s",
+
+  "&:hover": {
+    color: "$gray100",
+  },
+
   variants: {
     active: {
       true: {
         color: "$gray100",
+        fontWeight: "$bold",
       },
     },
   },
@@ -82,6 +89,12 @@ export const UserInfo = styled("div", {
 
   svg: {
     cursor: "pointer",
+    transition: "all 0.5s",
+    borderRadius: "$xs",
+
+    "&:hover": {
+      backgroundColor: "$gray600",
+    },
   },
 });
 
@@ -96,4 +109,12 @@ export const LoginButton = styled("button", {
   color: "$gray200",
   fontWeight: "$bold",
   lineHeight: "$base",
+
+  borderRadius: "$sm",
+  padding: "$1",
+  transition: "all 0.5s",
+
+  "&:hover": {
+    backgroundColor: "$gray600",
+  },
 });

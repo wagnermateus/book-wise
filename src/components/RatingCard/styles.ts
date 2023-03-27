@@ -1,11 +1,10 @@
 import { styled } from "@/styles/stitches.config";
 
 export const Container = styled("main", {
-  marginTop: "$4",
   display: "flex",
   flexDirection: "column",
   gap: "$8",
-  width: "38rem",
+  //maxWidth: "38rem",
   height: "17.5rem",
   backgroundColor: "$gray700",
   padding: "$6",
