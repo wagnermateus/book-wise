@@ -4,7 +4,7 @@ import Image from "next/image";
 import { RatingStars } from "../RatingStars";
 export function BookCard() {
   return (
-    <Container href={"/"}>
+    <Container href={"/home"}>
       <ImageContainer>
         <Image src={book} alt="Book Cover" />
       </ImageContainer>
