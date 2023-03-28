@@ -87,7 +87,7 @@ export default function Home({ bookRating }: BookRatingProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const response = await api.get("book/rating");
+  const response = await api.get("/rating");
   const bookRating = response.data.rating;
 
   return {
