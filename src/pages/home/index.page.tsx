@@ -34,9 +34,23 @@ interface BookRatingProps {
       created_at: Date;
     }
   ];
+
+  popularBooks: [
+    {
+      id: string;
+      author: string;
+      name: string;
+      cover_url: string;
+      ratings: [
+        {
+          rate: number;
+        }
+      ];
+    }
+  ];
 }
 
-export default function Home({ bookRating }: BookRatingProps) {
+export default function Home({ bookRating, popularBooks }: BookRatingProps) {
   return (
     <Container>
       <MenuBar />
@@ -70,14 +84,23 @@ export default function Home({ bookRating }: BookRatingProps) {
           <PopularBooks>
             <div>
               <Text>Livros populares</Text>
-              <ButtonSeeAll>
+              <ButtonSeeAll href={"explorer"}>
                 Ver todos <CaretRight size={16} />
               </ButtonSeeAll>
             </div>
             <PopularBooksList>
-              <BookCard />
-              <BookCard />
-              <BookCard />
+              {popularBooks.map((book) => {
+                return (
+                  <BookCard
+                    key={book.id}
+                    author={book.author}
+                    cover_url={book.cover_url}
+                    id={book.id}
+                    name={book.name}
+                    rate={book.ratings[0].rate}
+                  />
+                );
+              })}
             </PopularBooksList>
           </PopularBooks>
         </Books>
@@ -87,12 +110,16 @@ export default function Home({ bookRating }: BookRatingProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const response = await api.get("/rating");
-  const bookRating = response.data.rating;
+  const ratingResponse = await api.get("/rating");
+  const bookRating = ratingResponse.data.rating;
+
+  const popularBooksResponse = await api.get("/book/popularBooks");
+  const popularBooks = popularBooksResponse.data;
 
   return {
     props: {
       bookRating,
+      popularBooks,
     },
     revalidate: 60 * 60 * 1,
   };

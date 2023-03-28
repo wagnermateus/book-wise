@@ -1,4 +1,5 @@
 import { styled } from "@/styles/stitches.config";
+import Link from "next/link";
 
 export const Container = styled("div", {
   display: "flex",
@@ -31,12 +32,12 @@ export const PopularBooksList = styled("div", {
   gap: "$3",
 
   img: {
-    maxWidth: 64,
-    maxHeight: 94,
+    width: 64,
+    height: 94,
   },
 });
 
-export const ButtonSeeAll = styled("button", {
+export const ButtonSeeAll = styled(Link, {
   all: "unset",
 
   width: "6rem",

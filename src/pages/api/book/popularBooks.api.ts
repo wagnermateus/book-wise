@@ -15,6 +15,7 @@ export default async function handler(
         author: true,
         name: true,
         cover_url: true,
+        id: true,
 
         ratings: {
           select: {
