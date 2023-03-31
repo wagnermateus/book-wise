@@ -35,7 +35,7 @@ export default async function handler(
       take: 3,
     });
 
-    return res.status(200).json({ rating });
+    return res.status(200).json(rating);
   } catch (err) {
     console.log(err);
   }

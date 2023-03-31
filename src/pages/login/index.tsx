@@ -18,6 +18,9 @@ import { useRouter } from "next/router";
 export default function Login() {
   const router = useRouter();
 
+  function handleSignIn(provider: string) {
+    signIn(provider);
+  }
   return (
     <Container>
       <ImageContainer>
@@ -35,11 +38,11 @@ export default function Login() {
             <span>Faça seu login ou acesse como visitante.</span>
           </Header>
           <Buttons>
-            <Button onClick={() => signIn("google")}>
+            <Button onClick={() => handleSignIn("google")}>
               <Image src={googleIcon} alt="Google icon" />
               Entrar com Google
             </Button>
-            <Button onClick={() => signIn("github")}>
+            <Button onClick={() => handleSignIn("github")}>
               <Image src={githubIcon} alt="Google icon" />
               Entrar com GitHub
             </Button>

@@ -1,15 +1,22 @@
 import { BookCard } from "@/components/BookCard";
+import { LastReadCard } from "@/components/LastReadCard";
 import { MenuBar } from "@/components/MenuBar";
 import { RatingCard } from "@/components/RatingCard";
 import { api } from "@/lib/axios";
 import { GetStaticProps } from "next";
+import { useSession } from "next-auth/react";
 import { CaretRight, ChartLineUp } from "phosphor-react";
+import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+
 import {
   Books,
+  BooksContent,
   ButtonSeeAll,
   Container,
   Content,
   Header,
+  LastBookRead,
   LastRatings,
   PopularBooks,
   PopularBooksList,
@@ -17,24 +24,7 @@ import {
   Text,
 } from "./styles";
 
-interface BookRatingProps {
-  bookRating: [
-    {
-      user: {
-        avatar_url: string;
-        name: string;
-      };
-      book: {
-        author: string;
-        cover_url: string;
-        name: string;
-      };
-      rate: number;
-      description: string;
-      created_at: Date;
-    }
-  ];
-
+interface HomeProps {
   popularBooks: [
     {
       id: string;
@@ -50,7 +40,70 @@ interface BookRatingProps {
   ];
 }
 
-export default function Home({ bookRating, popularBooks }: BookRatingProps) {
+type BooksRatingProps = {
+  user: {
+    avatar_url: string;
+    name: string;
+  };
+  book: {
+    author: string;
+    cover_url: string;
+    name: string;
+  };
+  rate: number;
+  description: string;
+  created_at: Date;
+};
+
+interface LastReadProps {
+  ratings: [
+    {
+      book: {
+        name: string;
+        author: string;
+        cover_url: string;
+      };
+      rate: number;
+      description: string;
+      created_at: Date;
+    }
+  ];
+}
+export default function Home({ popularBooks }: HomeProps) {
+  const { data: session, status } = useSession();
+  const userIsAuthenticated = status === "authenticated";
+
+  const [booksRating, setBooksRating] = useState<BooksRatingProps[]>([]);
+
+  const { data: lastRead, isFetching } = useQuery<LastReadProps>(
+    ["lastRead"],
+
+    async () => {
+      if (userIsAuthenticated) {
+        const response = await api.get("/user/lastRead", {
+          params: {
+            id: session?.user.id,
+          },
+        });
+        return response.data;
+      }
+    },
+
+    {
+      enabled: !!session,
+    }
+  );
+
+  useEffect(() => {
+    api.get("/rating").then((response) => {
+      setBooksRating(response.data);
+    });
+  }, []);
+
+  if (isFetching) {
+    return <></>;
+  }
+
   return (
     <Container>
       <MenuBar />
@@ -59,32 +112,47 @@ export default function Home({ bookRating, popularBooks }: BookRatingProps) {
           <ChartLineUp size={24} color="#50B2C0" />
           <h2>Início</h2>
         </Header>
-        <Books>
-          <LastRatings>
-            <Text>Avaliações mais recentes</Text>
 
-            <Ratings>
-              {bookRating.map((rating) => {
-                return (
-                  <RatingCard
-                    key={rating.description}
-                    bookAuthor={rating.book.author}
-                    bookCoverUrl={rating.book.cover_url}
-                    bookTitle={rating.book.name}
-                    commentDate={rating.created_at}
-                    rating={rating.rate}
-                    ratingComment={rating.description}
-                    userAvtarUrl={rating.user.avatar_url}
-                    userName={rating.user.name}
-                  />
-                );
-              })}
-            </Ratings>
-          </LastRatings>
+        <Books>
+          <BooksContent>
+            {userIsAuthenticated && (
+              <LastBookRead>
+                <div>
+                  <Text>Sua última leitura</Text>
+                  <ButtonSeeAll href={"/profile"}>
+                    Ver todas <CaretRight size={16} />
+                  </ButtonSeeAll>
+                </div>
+
+                <LastReadCard lastRead={lastRead!} />
+              </LastBookRead>
+            )}
+            <LastRatings>
+              <Text>Avaliações mais recentes</Text>
+
+              <Ratings>
+                {booksRating.map((rating) => {
+                  return (
+                    <RatingCard
+                      key={rating.description}
+                      bookAuthor={rating.book.author}
+                      bookCoverUrl={rating.book.cover_url}
+                      bookTitle={rating.book.name}
+                      commentDate={rating.created_at}
+                      rating={rating.rate}
+                      ratingComment={rating.description}
+                      userAvtarUrl={rating.user.avatar_url}
+                      userName={rating.user.name}
+                    />
+                  );
+                })}
+              </Ratings>
+            </LastRatings>
+          </BooksContent>
           <PopularBooks>
             <div>
               <Text>Livros populares</Text>
-              <ButtonSeeAll href={"explorer"}>
+              <ButtonSeeAll href={"/explorer"}>
                 Ver todos <CaretRight size={16} />
               </ButtonSeeAll>
             </div>
@@ -110,15 +178,11 @@ export default function Home({ bookRating, popularBooks }: BookRatingProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const ratingResponse = await api.get("/rating");
-  const bookRating = ratingResponse.data.rating;
-
   const popularBooksResponse = await api.get("/book/popularBooks");
   const popularBooks = popularBooksResponse.data;
 
   return {
     props: {
-      bookRating,
       popularBooks,
     },
     revalidate: 60 * 60 * 1,

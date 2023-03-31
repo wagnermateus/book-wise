@@ -57,7 +57,13 @@ export function RatingCard({
       </Header>
       <Book>
         <CoverContainer>
-          <Image src={bookCoverUrl} alt="Book Cover" width={108} height={152} />
+          <Image
+            src={bookCoverUrl}
+            alt="Book Cover"
+            width={108}
+            height={152}
+            priority
+          />
         </CoverContainer>
         <Details>
           <TitleAndAuthor>

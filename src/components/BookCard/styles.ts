@@ -7,7 +7,7 @@ export const Container = styled(Link, {
   display: "flex",
   alignItems: "center",
   gap: "$5",
-  width: "100%",
+  maxWidth: "100%",
   backgroundColor: "$gray700",
   padding: "$4 $5",
   borderRadius: "$md",
@@ -38,7 +38,11 @@ export const TitleAndAuthor = styled("div", {
   flexDirection: "column",
 
   ">strong": {
+    width: "12.5rem",
+    overflow: "hidden",
     lineHeight: "$short",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
   },
 
   ">span": {

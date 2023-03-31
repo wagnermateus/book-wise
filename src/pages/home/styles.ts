@@ -11,11 +11,30 @@ export const Content = styled("main", {
   flexDirection: "column",
   marginLeft: "6rem",
 });
+export const BooksContent = styled("div", {
+  maxWidth: "38rem",
+  display: "flex",
+  flexDirection: "column",
+  gap: "$10",
+});
+export const LastBookRead = styled("div", {
+  main: { height: "12rem" },
 
-export const LastRatings = styled("section", {});
+  ">div": {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+});
+export const LastRatings = styled("section", {
+  maxWidth: "38rem",
+});
 
-export const PopularBooks = styled("section", {
-  minWidth: "20.25rem",
+export const PopularBooks = styled("aside", {
+  maxWidth: "20.25rem",
+  display: "flex",
+  flexDirection: "column",
+
   marginLeft: "4rem",
   marginRight: "6rem",
 
@@ -26,14 +45,15 @@ export const PopularBooks = styled("section", {
   },
 });
 export const PopularBooksList = styled("div", {
+  width: "100%",
   marginTop: "$4",
   display: "flex",
   flexDirection: "column",
   gap: "$3",
 
   img: {
-    width: 64,
-    height: 94,
+    minWidth: "4rem",
+    height: "5.875rem",
   },
 });
 

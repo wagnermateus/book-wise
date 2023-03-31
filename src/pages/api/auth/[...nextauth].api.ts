@@ -34,8 +34,12 @@ export const authOptions: NextAuthOptions = {
   ],
 
   callbacks: {
-    async redirect() {
-      return "/home";
+    async redirect({ url }) {
+      if (url !== "/") {
+        return "/";
+      } else {
+        return "/home";
+      }
     },
     async session({ session, user }) {
       return {

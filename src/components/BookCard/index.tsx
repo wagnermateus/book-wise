@@ -15,7 +15,7 @@ export function BookCard({ id, author, cover_url, name, rate }: BookProps) {
       <ImageContainer>
         <Image
           src={cover_url}
-          alt={`${name} cover`}
+          alt={`Book cover`}
           width={64}
           height={96}
           priority
