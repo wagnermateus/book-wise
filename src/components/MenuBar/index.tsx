@@ -37,11 +37,11 @@ export function MenuBar() {
         </NavItem>
         <NavItem>
           <ActiveLinkBorder
-            active={router.pathname == "/explorer" ? true : false}
+            active={router.pathname == "/explore" ? true : false}
           ></ActiveLinkBorder>
           <LinkComponent
-            href="/explorer"
-            active={router.pathname == "/explorer" ? true : false}
+            href="/explore"
+            active={router.pathname == "/explore" ? true : false}
           >
             <Binoculars size={24} />
             Explorar
