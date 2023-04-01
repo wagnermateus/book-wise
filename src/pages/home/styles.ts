@@ -18,7 +18,7 @@ export const BooksContent = styled("div", {
   gap: "$10",
 });
 export const LastBookRead = styled("div", {
-  main: { height: "12rem" },
+  main: { height: "auto" },
 
   ">div": {
     display: "flex",

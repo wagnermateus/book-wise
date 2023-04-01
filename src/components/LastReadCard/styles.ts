@@ -4,7 +4,7 @@ export const Container = styled("main", {
   marginTop: "$4",
   display: "flex",
   gap: "$8",
-  height: "17.5rem",
+  height: "auto",
   backgroundColor: "$gray700",
   padding: "$6",
   borderRadius: "$md",

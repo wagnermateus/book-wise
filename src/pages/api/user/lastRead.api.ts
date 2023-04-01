@@ -20,10 +20,10 @@ export default async function handler(
               name: true,
               author: true,
               cover_url: true,
+              summary: true,
             },
           },
           rate: true,
-          description: true,
           created_at: true,
         },
         orderBy: {

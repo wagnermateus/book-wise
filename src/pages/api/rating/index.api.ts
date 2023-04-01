@@ -23,6 +23,7 @@ export default async function handler(
             author: true,
             cover_url: true,
             name: true,
+            summary: true,
           },
         },
         rate: true,

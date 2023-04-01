@@ -21,9 +21,9 @@ interface LastReadProps {
           name: string;
           author: string;
           cover_url: string;
+          summary: string;
         };
         rate: number;
-        description: string;
         created_at: Date;
       }
     ];
@@ -60,7 +60,7 @@ export function LastReadCard({ lastRead }: LastReadProps) {
             <strong>{lastRead!.ratings[0].book.name}</strong>
             <span>{lastRead!.ratings[0].book.author}</span>
           </TitleAndAuthor>
-          <p>{lastRead!.ratings[0].description}</p>
+          <p>{lastRead!.ratings[0].book.summary}</p>
         </Details>
       </Book>
     </Container>

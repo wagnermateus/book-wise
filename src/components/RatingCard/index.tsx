@@ -24,7 +24,7 @@ type RatingCardProps = {
   bookCoverUrl: string;
   bookTitle: string;
   bookAuthor: string;
-  ratingComment: string;
+  summary: string;
   commentDate: Date;
 };
 
@@ -33,7 +33,7 @@ export function RatingCard({
   bookCoverUrl,
   bookTitle,
   rating,
-  ratingComment,
+  summary,
   userAvtarUrl,
   userName,
   commentDate,
@@ -70,7 +70,7 @@ export function RatingCard({
             <strong>{bookTitle}</strong>
             <span>{bookAuthor}</span>
           </TitleAndAuthor>
-          <p>{ratingComment}</p>
+          <p>{summary}</p>
         </Details>
       </Book>
     </Container>

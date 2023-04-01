@@ -49,9 +49,9 @@ type BooksRatingProps = {
     author: string;
     cover_url: string;
     name: string;
+    summary: string;
   };
   rate: number;
-  description: string;
   created_at: Date;
 };
 
@@ -62,9 +62,9 @@ interface LastReadProps {
         name: string;
         author: string;
         cover_url: string;
+        summary: string;
       };
       rate: number;
-      description: string;
       created_at: Date;
     }
   ];
@@ -134,13 +134,13 @@ export default function Home({ popularBooks }: HomeProps) {
                 {booksRating.map((rating) => {
                   return (
                     <RatingCard
-                      key={rating.description}
+                      key={rating.book.summary}
                       bookAuthor={rating.book.author}
                       bookCoverUrl={rating.book.cover_url}
                       bookTitle={rating.book.name}
                       commentDate={rating.created_at}
                       rating={rating.rate}
-                      ratingComment={rating.description}
+                      summary={rating.book.summary}
                       userAvtarUrl={rating.user.avatar_url}
                       userName={rating.user.name}
                     />

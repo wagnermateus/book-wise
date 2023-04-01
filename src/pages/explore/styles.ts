@@ -47,6 +47,7 @@ export const InputLabel = styled("div", {
   border: "1px solid $purple100",
   borderRadius: "$full",
   color: "$purple100",
+  transition: "all 1s",
 });
 export const SearchBookInput = styled("input", {
   width: "27rem",
@@ -56,8 +57,9 @@ export const SearchBookInput = styled("input", {
   backgroundColor: "transparent",
   border: "1px solid $gray500",
   color: "$gray100",
-
+  transition: "all 2s",
   "&:focus": {
+    outline: 0,
     border: "1px solid $green200",
   },
 
