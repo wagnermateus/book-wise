@@ -7,9 +7,17 @@ type BookProps = {
   author: string;
   name: string;
   cover_url: string;
-  rate: number;
+  ratings: [{ rate: number }];
 };
-export function BookCard({ id, author, cover_url, name, rate }: BookProps) {
+export function BookCard({ id, author, cover_url, name, ratings }: BookProps) {
+  const sumOfRatings = ratings.reduce(
+    (accumulator, item) => {
+      accumulator.rate += item.rate;
+      return accumulator;
+    },
+    { rate: 0 }
+  );
+
   return (
     <Container href={"/home"}>
       <ImageContainer>
@@ -26,7 +34,10 @@ export function BookCard({ id, author, cover_url, name, rate }: BookProps) {
           <strong>{name}</strong>
           <span>{author}</span>
         </TitleAndAuthor>
-        <RatingStars rating={rate} starSize={14} />
+        <RatingStars
+          rating={Math.round(sumOfRatings.rate / ratings.length)}
+          starSize={14}
+        />
       </BookInfo>
     </Container>
   );

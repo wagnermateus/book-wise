@@ -20,13 +20,10 @@ export default async function handler(
           select: {
             rate: true,
           },
-          orderBy: {
-            rate: "desc",
-          },
-          take: 1,
         },
       },
     });
+
     return res.status(200).json(allBooks);
   } catch (error) {
     console.log(error);

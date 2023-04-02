@@ -21,10 +21,6 @@ export default async function handler(
           select: {
             rate: true,
           },
-          orderBy: {
-            rate: "desc",
-          },
-          take: 1,
         },
       },
       orderBy: {

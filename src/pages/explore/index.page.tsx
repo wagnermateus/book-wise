@@ -1,7 +1,11 @@
+import { BookCard } from "@/components/BookCard";
 import { MenuBar } from "@/components/MenuBar";
-import { Binoculars, MagnifyingGlass } from "phosphor-react";
+import { api } from "@/lib/axios";
+import { GetStaticProps } from "next";
+import { Binoculars } from "phosphor-react";
 import {
   BookCategories,
+  BooksList,
   CategoryInputContainer,
   Container,
   Content,
@@ -12,7 +16,23 @@ import {
   SearchBookInput,
 } from "./styles";
 
-export default function Explorer() {
+interface BookProps {
+  allBooks: [
+    {
+      id: string;
+      name: string;
+      author: string;
+      cover_url: string;
+      ratings: [
+        {
+          rate: number;
+        }
+      ];
+    }
+  ];
+}
+
+export default function Explorer({ allBooks }: BookProps) {
   return (
     <Container>
       <MenuBar />
@@ -27,7 +47,13 @@ export default function Explorer() {
           </LogoAndInputBox>
           <BookCategories>
             <CategoryInputContainer>
-              <input type="radio" id="todos" value="todos" name="category" />
+              <input
+                type="radio"
+                id="todos"
+                value="todos"
+                name="category"
+                checked
+              />
               <InputLabel>
                 <label htmlFor="all">Todos</label>
               </InputLabel>
@@ -101,7 +127,32 @@ export default function Explorer() {
             </CategoryInputContainer>
           </BookCategories>
         </Header>
+        <BooksList>
+          {allBooks.map((book) => {
+            return (
+              <BookCard
+                key={book.id}
+                author={book.author}
+                cover_url={book.cover_url}
+                id={book.id}
+                name={book.name}
+                ratings={book.ratings}
+              />
+            );
+          })}
+        </BooksList>
       </Content>
     </Container>
   );
 }
+
+export const getStaticProps: GetStaticProps = async () => {
+  const response = await api.get("book/allBooks");
+  const allBooks = response.data;
+  return {
+    props: {
+      allBooks,
+    },
+    revalidate: 60 * 60 * 3,
+  };
+};

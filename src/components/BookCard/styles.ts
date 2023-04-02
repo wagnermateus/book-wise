@@ -6,6 +6,7 @@ export const Container = styled(Link, {
 
   display: "flex",
   alignItems: "center",
+  justifyContent: "space-evenly",
   gap: "$5",
   maxWidth: "100%",
   backgroundColor: "$gray700",
@@ -38,7 +39,7 @@ export const TitleAndAuthor = styled("div", {
   flexDirection: "column",
 
   ">strong": {
-    width: "12.5rem",
+    width: "10rem",
     overflow: "hidden",
     lineHeight: "$short",
     textOverflow: "ellipsis",

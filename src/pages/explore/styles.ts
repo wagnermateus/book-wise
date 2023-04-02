@@ -69,6 +69,15 @@ export const SearchBookInput = styled("input", {
 });
 
 export const Content = styled("div", {
+  maxWidth: "62.25rem",
   margin: "0 6rem",
   flex: 1,
+});
+
+export const BooksList = styled("div", {
+  marginTop: "3rem",
+
+  display: "grid",
+  gridTemplateColumns: "auto auto auto",
+  gridGap: "1.25rem",
 });

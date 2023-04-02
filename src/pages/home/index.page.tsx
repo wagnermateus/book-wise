@@ -80,11 +80,7 @@ export default function Home({ popularBooks }: HomeProps) {
 
     async () => {
       if (userIsAuthenticated) {
-        const response = await api.get("/user/lastRead", {
-          params: {
-            id: session?.user.id,
-          },
-        });
+        const response = await api.get("/user/lastRead");
         return response.data;
       }
     },
@@ -152,7 +148,7 @@ export default function Home({ popularBooks }: HomeProps) {
           <PopularBooks>
             <div>
               <Text>Livros populares</Text>
-              <ButtonSeeAll href={"/explorer"}>
+              <ButtonSeeAll href={"/explore"}>
                 Ver todos <CaretRight size={16} />
               </ButtonSeeAll>
             </div>
@@ -165,7 +161,7 @@ export default function Home({ popularBooks }: HomeProps) {
                     cover_url={book.cover_url}
                     id={book.id}
                     name={book.name}
-                    rate={book.ratings[0].rate}
+                    ratings={book.ratings}
                   />
                 );
               })}

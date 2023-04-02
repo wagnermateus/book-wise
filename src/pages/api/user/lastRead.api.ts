@@ -1,5 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "@/lib/prisma";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth].api";
 
 export default async function handler(
   req: NextApiRequest,
@@ -8,8 +10,8 @@ export default async function handler(
   if (req.method !== "GET") {
     return res.status(405).end();
   }
-
-  const userId = String(req.query.id);
+  const session = await getServerSession(req, res, authOptions);
+  const userId = session?.user.id;
 
   const lastRead = await prisma.user.findFirst({
     select: {
