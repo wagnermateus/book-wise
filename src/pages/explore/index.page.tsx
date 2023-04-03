@@ -18,9 +18,9 @@ import {
   LogoAndInputBox,
   SearchBookInput,
 } from "./styles";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
-interface BookProps {
+interface ExploreProps {
   allBooks: [
     {
       id: string;
@@ -32,11 +32,18 @@ interface BookProps {
           rate: number;
         }
       ];
+      categories: [
+        {
+          category: {
+            name: string;
+          };
+        }
+      ];
     }
   ];
 }
 
-interface SearchResultProps {
+interface BookProps {
   id: string;
   name: string;
   author: string;
@@ -54,8 +61,11 @@ const SearchBookFormSchema = zod.object({
 
 type SearchBookFormData = zod.infer<typeof SearchBookFormSchema>;
 
-export default function Explorer({ allBooks }: BookProps) {
-  const [searchResult, setSearchResult] = useState<SearchResultProps[]>([]);
+export default function Explorer({ allBooks }: ExploreProps) {
+  const [books, setBooks] = useState<BookProps[]>(allBooks);
+
+  const [searchResult, setSearchResult] = useState<BookProps[]>([]);
+
   const {
     register,
     handleSubmit,
@@ -73,15 +83,33 @@ export default function Explorer({ allBooks }: BookProps) {
     );
     setSearchResult(result);
   }
-  const searchInputIsEmpty =
+
+  const haveResearch =
     String(watch("titleOrAuthor")).trim().length > 0 &&
     watch("titleOrAuthor") !== undefined;
 
+  function handleSearchByCategory(category: ChangeEvent<HTMLInputElement>) {
+    if (category.target.value !== "todos") {
+      setBooks([]);
+      for (let i = 0; i < allBooks.length; i++) {
+        for (let x = 0; x < allBooks[i].categories.length; x++) {
+          if (
+            allBooks[i].categories[x].category.name === category.target.value
+          ) {
+            setBooks((prevState) => [...prevState, allBooks[i]]);
+          }
+        }
+      }
+    } else if (category.target.value === "todos") {
+      setBooks(allBooks);
+    }
+  }
+  console.log(books);
   useEffect(() => {
-    if (searchInputIsEmpty) {
+    if (haveResearch) {
       setSearchResult([]);
     }
-  }, [searchInputIsEmpty]);
+  }, [haveResearch]);
   return (
     <Container>
       <MenuBar />
@@ -101,91 +129,85 @@ export default function Explorer({ allBooks }: BookProps) {
               />
             </form>
           </LogoAndInputBox>
-          <BookCategories>
+          <BookCategories onChange={handleSearchByCategory}>
+            <CategoryInputContainer>
+              <input type="radio" id="todos" value="todos" name="category" />
+              <InputLabel>
+                <label htmlFor="todos">Todos</label>
+              </InputLabel>
+            </CategoryInputContainer>
             <CategoryInputContainer>
               <input
                 type="radio"
-                id="todos"
-                value="todos"
+                id="computacao"
+                value="computacao"
                 name="category"
-                checked
               />
               <InputLabel>
-                <label htmlFor="all">Todos</label>
+                <label htmlFor="computacao">Computação</label>
               </InputLabel>
             </CategoryInputContainer>
             <CategoryInputContainer>
               <input
                 type="radio"
                 id="educacao"
-                value="educacao"
+                value="Educacao"
                 name="category"
               />
               <InputLabel>
-                <label htmlFor="all">Computação</label>
-              </InputLabel>
-            </CategoryInputContainer>
-            <CategoryInputContainer>
-              <input
-                type="radio"
-                id="educacao"
-                value="educacao"
-                name="category"
-              />
-              <InputLabel>
-                <label htmlFor="all">Educação</label>
+                <label htmlFor="educacao">Educação</label>
               </InputLabel>
             </CategoryInputContainer>
             <CategoryInputContainer>
               <input
                 type="radio"
                 id="fantasia"
-                value="fantasia"
+                value="Fantasia"
                 name="category"
               />
               <InputLabel>
-                <label htmlFor="all">Fantasia</label>
+                <label htmlFor="fantasia">Fantasia</label>
               </InputLabel>
             </CategoryInputContainer>
             <CategoryInputContainer>
               <input
                 type="radio"
                 id="ficcao-cientifica"
-                value="ficcao-cientifica"
+                value="Ficcao cientifica"
                 name="category"
               />
               <InputLabel>
-                <label htmlFor="all">Ficção Cientifica</label>
+                <label htmlFor="ficcao-cientifica">Ficção Cientifica</label>
               </InputLabel>
             </CategoryInputContainer>
             <CategoryInputContainer>
-              <input type="radio" id="horror" value="horror" name="category" />
+              <input type="radio" id="horror" value="Horror" name="category" />
               <InputLabel>
-                <label htmlFor="all">Horror</label>
+                <label htmlFor="horror">Horror</label>
               </InputLabel>
             </CategoryInputContainer>
             <CategoryInputContainer>
-              <input type="radio" id="hqs" value="hqs" name="category" />
+              <input type="radio" id="hqs" value="Hqs" name="category" />
               <InputLabel>
-                <label htmlFor="all">HQs</label>
+                <label htmlFor="hqs">HQs</label>
               </InputLabel>
             </CategoryInputContainer>
             <CategoryInputContainer>
               <input
                 type="radio"
                 id="suspense"
-                value="suspense"
+                value="Suspense"
                 name="category"
               />
               <InputLabel>
-                <label htmlFor="all">Suspense</label>
+                <label htmlFor="suspense">Suspense</label>
               </InputLabel>
             </CategoryInputContainer>
           </BookCategories>
         </Header>
         <BooksList>
-          {!searchInputIsEmpty
-            ? allBooks.map((book) => {
+          {!haveResearch
+            ? books.map((book) => {
                 return (
                   <BookCard
                     key={book.id}

@@ -21,6 +21,15 @@ export default async function handler(
             rate: true,
           },
         },
+        categories: {
+          select: {
+            category: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
       },
     });
 
