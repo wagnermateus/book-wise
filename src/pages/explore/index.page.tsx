@@ -3,6 +3,9 @@ import { MenuBar } from "@/components/MenuBar";
 import { api } from "@/lib/axios";
 import { GetStaticProps } from "next";
 import { Binoculars } from "phosphor-react";
+import { useForm } from "react-hook-form";
+import zod from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   BookCategories,
   BooksList,
@@ -15,6 +18,7 @@ import {
   LogoAndInputBox,
   SearchBookInput,
 } from "./styles";
+import { useEffect, useState } from "react";
 
 interface BookProps {
   allBooks: [
@@ -32,7 +36,52 @@ interface BookProps {
   ];
 }
 
+interface SearchResultProps {
+  id: string;
+  name: string;
+  author: string;
+  cover_url: string;
+  ratings: [
+    {
+      rate: number;
+    }
+  ];
+}
+
+const SearchBookFormSchema = zod.object({
+  titleOrAuthor: zod.string().min(2),
+});
+
+type SearchBookFormData = zod.infer<typeof SearchBookFormSchema>;
+
 export default function Explorer({ allBooks }: BookProps) {
+  const [searchResult, setSearchResult] = useState<SearchResultProps[]>([]);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { isLoading },
+  } = useForm<SearchBookFormData>({
+    resolver: zodResolver(SearchBookFormSchema),
+  });
+
+  function handleSearchBook(data: SearchBookFormData) {
+    const result = allBooks.filter(
+      (book) =>
+        book.name.includes(data.titleOrAuthor) ||
+        book.author.includes(data.titleOrAuthor)
+    );
+    setSearchResult(result);
+  }
+  const searchInputIsEmpty =
+    String(watch("titleOrAuthor")).trim().length > 0 &&
+    watch("titleOrAuthor") !== undefined;
+
+  useEffect(() => {
+    if (searchInputIsEmpty) {
+      setSearchResult([]);
+    }
+  }, [searchInputIsEmpty]);
   return (
     <Container>
       <MenuBar />
@@ -43,7 +92,14 @@ export default function Explorer({ allBooks }: BookProps) {
               <Binoculars size={32} color="#50B2C0" />
               <h2>Explorar</h2>
             </Logo>
-            <SearchBookInput type="text" placeholder="Buscar livro ou autor" />
+            <form onSubmit={handleSubmit(handleSearchBook)}>
+              <SearchBookInput
+                type="text"
+                placeholder="Buscar livro ou autor"
+                disabled={isLoading}
+                {...register("titleOrAuthor")}
+              />
+            </form>
           </LogoAndInputBox>
           <BookCategories>
             <CategoryInputContainer>
@@ -128,18 +184,31 @@ export default function Explorer({ allBooks }: BookProps) {
           </BookCategories>
         </Header>
         <BooksList>
-          {allBooks.map((book) => {
-            return (
-              <BookCard
-                key={book.id}
-                author={book.author}
-                cover_url={book.cover_url}
-                id={book.id}
-                name={book.name}
-                ratings={book.ratings}
-              />
-            );
-          })}
+          {!searchInputIsEmpty
+            ? allBooks.map((book) => {
+                return (
+                  <BookCard
+                    key={book.id}
+                    author={book.author}
+                    cover_url={book.cover_url}
+                    id={book.id}
+                    name={book.name}
+                    ratings={book.ratings}
+                  />
+                );
+              })
+            : searchResult.map((book) => {
+                return (
+                  <BookCard
+                    key={book.id}
+                    author={book.author}
+                    cover_url={book.cover_url}
+                    id={book.id}
+                    name={book.name}
+                    ratings={book.ratings}
+                  />
+                );
+              })}
         </BooksList>
       </Content>
     </Container>

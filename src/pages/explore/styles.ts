@@ -80,4 +80,8 @@ export const BooksList = styled("div", {
   display: "grid",
   gridTemplateColumns: "auto auto auto",
   gridGap: "1.25rem",
+
+  a: {
+    maxWidth: 318,
+  },
 });

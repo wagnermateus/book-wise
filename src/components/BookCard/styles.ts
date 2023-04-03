@@ -6,7 +6,7 @@ export const Container = styled(Link, {
 
   display: "flex",
   alignItems: "center",
-  justifyContent: "space-evenly",
+
   gap: "$5",
   maxWidth: "100%",
   backgroundColor: "$gray700",
