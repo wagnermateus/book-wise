@@ -50,11 +50,11 @@ export function MenuBar() {
         {userIsAuthenticated && (
           <NavItem>
             <ActiveLinkBorder
-              active={router.pathname == "/profile" ? true : false}
+              active={router.pathname.includes(`/user/`) ? true : false}
             ></ActiveLinkBorder>
             <LinkComponent
-              href="/profile"
-              active={router.pathname == "/profile" ? true : false}
+              href={`/user/${session?.user.id}`}
+              active={router.pathname.includes(`/user/`) ? true : false}
             >
               <User size={24} />
               Perfil

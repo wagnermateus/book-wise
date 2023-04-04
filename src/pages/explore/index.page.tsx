@@ -104,7 +104,7 @@ export default function Explorer({ allBooks }: ExploreProps) {
       setBooks(allBooks);
     }
   }
-  console.log(books);
+
   useEffect(() => {
     if (haveResearch) {
       setSearchResult([]);
