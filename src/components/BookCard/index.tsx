@@ -10,7 +10,7 @@ type BookProps = {
   ratings: [{ rate: number }];
 };
 export function BookCard({ id, author, cover_url, name, ratings }: BookProps) {
-  const sumOfRatings = ratings.reduce(
+  const sumOfRatings = ratings?.reduce(
     (accumulator, item) => {
       accumulator.rate += item.rate;
       return accumulator;
@@ -35,7 +35,7 @@ export function BookCard({ id, author, cover_url, name, ratings }: BookProps) {
           <span>{author}</span>
         </TitleAndAuthor>
         <RatingStars
-          rating={Math.round(sumOfRatings.rate / ratings.length)}
+          rating={Math.round(sumOfRatings!.rate / ratings!.length)}
           starSize={14}
         />
       </BookInfo>

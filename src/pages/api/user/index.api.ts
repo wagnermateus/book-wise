@@ -17,12 +17,22 @@ export default async function handler(
         name: true,
         avatar_url: true,
         created_at: true,
+      },
+      where: {
+        id: userId,
+      },
+    });
 
+    const userRatings = await prisma.user.findMany({
+      select: {
         ratings: {
           select: {
             book: {
               select: {
                 name: true,
+                author: true,
+                cover_url: true,
+                id: true,
               },
             },
             created_at: true,
@@ -37,7 +47,7 @@ export default async function handler(
       },
     });
 
-    return res.status(200).json(userData);
+    return res.status(200).json({ userData, userRatings });
   } catch (error) {
     console.log(error);
   }

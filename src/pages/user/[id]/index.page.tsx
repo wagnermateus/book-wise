@@ -1,7 +1,11 @@
 import { MenuBar } from "@/components/MenuBar";
-import { prisma } from "@/lib/prisma";
-import { GetServerSideProps } from "next";
-import { User } from "phosphor-react";
+import { UserRating } from "@/components/UserRating";
+import { api } from "@/lib/axios";
+import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/router";
+import { User as UserIcon } from "phosphor-react";
+import { useState } from "react";
+
 import {
   Books,
   Container,
@@ -11,62 +15,76 @@ import {
   SearchRatingInput,
 } from "./styles";
 
-export default function Profile({ user }: any) {
-  console.log(user);
-  return (
-    <Container>
-      <MenuBar />
-      <Content>
-        <Header>
-          <User size={26} color="#50B2C0" />
-          <h2>Perfil</h2>
-        </Header>
-        <Ratings>
-          <SearchRatingInput type="text" placeholder="Buscar livro avaliado" />
-          <Books></Books>
-        </Ratings>
-      </Content>
-    </Container>
-  );
+type RatingsProps = [
+  {
+    ratings: [
+      {
+        book: {
+          name: string;
+          author: string;
+          cover_url: string;
+          id: string;
+        };
+        created_at: Date;
+        description: string;
+        id: string;
+        rate: number;
+      }
+    ];
+  }
+];
+
+interface UserProps {
+  userData: {};
+  userRatings: RatingsProps;
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const userId = String(params?.id);
+export default function User() {
+  const { data: user, isFetching } = useQuery<UserProps>(["user"], async () => {
+    const response = await api.get("/user", {
+      params: { id: router.query.id },
+    });
 
-  const response = await prisma.user.findUnique({
-    select: {
-      id: true,
-      name: true,
-      avatar_url: true,
-      created_at: true,
-
-      ratings: {
-        select: {
-          book: {
-            select: {
-              name: true,
-            },
-          },
-          created_at: true,
-          id: true,
-          rate: true,
-          description: true,
-        },
-      },
-    },
-    where: {
-      id: userId,
-    },
+    return response.data;
   });
-  if (!response) {
-    return {
-      notFound: true,
-    };
-  }
+  const [ratings, setRatings] = useState(user!.userRatings[0].ratings);
 
-  return {
-    props: {
-      response,
-    },
-  };
-};
+  const router = useRouter();
+
+  if (isFetching) {
+    return <Container></Container>;
+  } else {
+    return (
+      <Container>
+        <MenuBar />
+        <Content>
+          <Header>
+            <UserIcon size={26} color="#50B2C0" />
+            <h2>Perfil</h2>
+          </Header>
+          <Ratings>
+            <SearchRatingInput
+              type="text"
+              placeholder="Buscar livro avaliado"
+            />
+            <Books>
+              {ratings.map((item) => {
+                return (
+                  <UserRating
+                    key={item.id}
+                    bookAuthor={item.book.author}
+                    bookCoverUrl={item.book.cover_url}
+                    bookTitle={item.book.name}
+                    comment={item.description}
+                    commentDate={item.created_at}
+                    rating={item.rate}
+                  />
+                );
+              })}
+            </Books>
+          </Ratings>
+        </Content>
+      </Container>
+    );
+  }
+}
