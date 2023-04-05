@@ -33,6 +33,7 @@ export default async function handler(
                 author: true,
                 cover_url: true,
                 id: true,
+                total_pages: true,
               },
             },
             created_at: true,

@@ -4,7 +4,6 @@ import { api } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { User as UserIcon } from "phosphor-react";
-import { useState } from "react";
 
 import {
   Books,
@@ -47,44 +46,39 @@ export default function User() {
 
     return response.data;
   });
-  const [ratings, setRatings] = useState(user!.userRatings[0].ratings);
 
   const router = useRouter();
 
   if (isFetching) {
-    return <Container></Container>;
-  } else {
-    return (
-      <Container>
-        <MenuBar />
-        <Content>
-          <Header>
-            <UserIcon size={26} color="#50B2C0" />
-            <h2>Perfil</h2>
-          </Header>
-          <Ratings>
-            <SearchRatingInput
-              type="text"
-              placeholder="Buscar livro avaliado"
-            />
-            <Books>
-              {ratings.map((item) => {
-                return (
-                  <UserRating
-                    key={item.id}
-                    bookAuthor={item.book.author}
-                    bookCoverUrl={item.book.cover_url}
-                    bookTitle={item.book.name}
-                    comment={item.description}
-                    commentDate={item.created_at}
-                    rating={item.rate}
-                  />
-                );
-              })}
-            </Books>
-          </Ratings>
-        </Content>
-      </Container>
-    );
+    return <></>;
   }
+  return (
+    <Container>
+      <MenuBar />
+      <Content>
+        <Header>
+          <UserIcon size={26} color="#50B2C0" />
+          <h2>Perfil</h2>
+        </Header>
+        <Ratings>
+          <SearchRatingInput type="text" placeholder="Buscar livro avaliado" />
+          <Books>
+            {user!.userRatings[0].ratings.map((item) => {
+              return (
+                <UserRating
+                  key={item.id}
+                  bookAuthor={item.book.author}
+                  bookCoverUrl={item.book.cover_url}
+                  bookTitle={item.book.name}
+                  comment={item.description}
+                  commentDate={item.created_at}
+                  rating={item.rate}
+                />
+              );
+            })}
+          </Books>
+        </Ratings>
+      </Content>
+    </Container>
+  );
 }

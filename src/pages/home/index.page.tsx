@@ -23,6 +23,7 @@ import {
   Ratings,
   Text,
 } from "./styles";
+import { useRouter } from "next/router";
 
 interface HomeProps {
   popularBooks: [
@@ -90,6 +91,8 @@ export default function Home({ popularBooks }: HomeProps) {
     }
   );
 
+  const router = useRouter();
+
   useEffect(() => {
     api.get("/rating").then((response) => {
       setBooksRating(response.data);
@@ -115,7 +118,7 @@ export default function Home({ popularBooks }: HomeProps) {
               <LastBookRead>
                 <div>
                   <Text>Sua última leitura</Text>
-                  <ButtonSeeAll href={"/profile"}>
+                  <ButtonSeeAll href={`/user/${session?.user.id}`}>
                     Ver todas <CaretRight size={16} />
                   </ButtonSeeAll>
                 </div>
