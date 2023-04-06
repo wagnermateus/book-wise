@@ -30,6 +30,10 @@ export const CoverContainer = styled("figure", {
   width: "6.75rem",
   height: "9.5rem",
   borderRadius: "$sm",
+
+  img: {
+    width: "100%",
+  },
 });
 
 export const Details = styled("div", {

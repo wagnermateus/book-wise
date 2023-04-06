@@ -5,7 +5,7 @@ export const Container = styled("div", {
 });
 
 export const Content = styled("main", {
-  margin: "4.5rem 6rem 0 5.25rem",
+  margin: "4.5rem 6rem 6rem 5.25rem",
   display: "flex",
   flexDirection: "column",
   gap: "$10",
@@ -16,11 +16,69 @@ export const Header = styled("header", {
   gap: "0.875rem",
 });
 
-export const Ratings = styled("div", {
-  width: "39rem",
+export const Ratings = styled("section", {
+  maxWidth: "39rem",
   display: "flex",
   flexDirection: "column",
   gap: "$8",
+});
+
+export const Box = styled("div", {
+  display: "flex",
+
+  gap: "4rem",
+});
+
+export const UserProfile = styled("section", {
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  width: "19.25rem",
+  height: "35rem",
+  gap: "$8",
+  borderLeft: "1px solid $gray700",
+});
+
+export const UserInfo = styled("div", {
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+
+  figure: {
+    width: "4.5rem",
+    marginBottom: "$6",
+  },
+
+  strong: {
+    fontSize: "$xl",
+  },
+  span: {
+    fontSize: "$sm",
+    lineHeight: "$base",
+    color: "$gray400",
+  },
+});
+
+export const UserActivities = styled("div", {
+  display: "flex",
+  flexDirection: "column",
+  gap: "$10",
+});
+
+export const Activity = styled("div", {
+  display: "flex",
+  alignItems: "center",
+
+  gap: "$5",
+});
+export const ActivityInfo = styled("div", {
+  display: "flex",
+  flexDirection: "column",
+
+  span: {
+    color: "$gray300",
+    lineHeight: "$base",
+  },
 });
 export const SearchRatingInput = styled("input", {
   width: "100%",

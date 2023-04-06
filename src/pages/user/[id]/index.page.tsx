@@ -3,16 +3,29 @@ import { UserRating } from "@/components/UserRating";
 import { api } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { User as UserIcon } from "phosphor-react";
+import {
+  BookOpen,
+  User as UserIcon,
+  Books as BooksIcon,
+  UserList,
+} from "phosphor-react";
 
 import {
+  Activity,
+  ActivityInfo,
   Books,
+  Box,
   Container,
   Content,
   Header,
   Ratings,
   SearchRatingInput,
+  UserActivities,
+  UserInfo,
+  UserProfile,
 } from "./styles";
+import { UserAvatar } from "@/components/UserAvatar";
+import { getYear } from "date-fns";
 
 type RatingsProps = [
   {
@@ -34,7 +47,12 @@ type RatingsProps = [
 ];
 
 interface UserProps {
-  userData: {};
+  userData: {
+    id: string;
+    name: string;
+    avatar_url: string;
+    created_at: Date;
+  };
   userRatings: RatingsProps;
 }
 
@@ -49,6 +67,10 @@ export default function User() {
 
   const router = useRouter();
 
+  const userRegistrationDateFormatted = getYear(
+    new Date(user!.userData.created_at)
+  );
+
   if (isFetching) {
     return <></>;
   }
@@ -60,24 +82,64 @@ export default function User() {
           <UserIcon size={26} color="#50B2C0" />
           <h2>Perfil</h2>
         </Header>
-        <Ratings>
-          <SearchRatingInput type="text" placeholder="Buscar livro avaliado" />
-          <Books>
-            {user!.userRatings[0].ratings.map((item) => {
-              return (
-                <UserRating
-                  key={item.id}
-                  bookAuthor={item.book.author}
-                  bookCoverUrl={item.book.cover_url}
-                  bookTitle={item.book.name}
-                  comment={item.description}
-                  commentDate={item.created_at}
-                  rating={item.rate}
-                />
-              );
-            })}
-          </Books>
-        </Ratings>
+        <Box>
+          <Ratings>
+            <SearchRatingInput
+              type="text"
+              placeholder="Buscar livro avaliado"
+            />
+            <Books>
+              {user!.userRatings[0].ratings.map((item) => {
+                return (
+                  <UserRating
+                    key={item.id}
+                    bookAuthor={item.book.author}
+                    bookCoverUrl={item.book.cover_url}
+                    bookTitle={item.book.name}
+                    comment={item.description}
+                    commentDate={item.created_at}
+                    rating={item.rate}
+                  />
+                );
+              })}
+            </Books>
+          </Ratings>
+          <UserProfile>
+            <UserInfo>
+              <UserAvatar
+                src={user!.userData.avatar_url}
+                alt="User profile image"
+                size={68}
+              />
+              <strong>{user!.userData.name}</strong>
+              <span>{`membro desde ${userRegistrationDateFormatted}`}</span>
+            </UserInfo>
+            <UserActivities>
+              <Activity>
+                <BookOpen color="#50B2C0" size={32} />
+                <ActivityInfo>
+                  <strong>123</strong>
+                  <span>Páginas lidas</span>
+                </ActivityInfo>
+              </Activity>
+              <Activity>
+                <BooksIcon color="#50B2C0" size={32} />
+                <ActivityInfo>
+                  <strong>3</strong>
+                  <span>Livros avaliados</span>
+                </ActivityInfo>
+              </Activity>
+
+              <Activity>
+                <UserList color="#50B2C0" size={32} />
+                <ActivityInfo>
+                  <strong>3</strong>
+                  <span>Autores lidos</span>
+                </ActivityInfo>
+              </Activity>
+            </UserActivities>
+          </UserProfile>
+        </Box>
       </Content>
     </Container>
   );
