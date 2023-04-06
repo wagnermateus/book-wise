@@ -36,6 +36,7 @@ type RatingsProps = [
           author: string;
           cover_url: string;
           id: string;
+          total_pages: number;
         };
         created_at: Date;
         description: string;
@@ -70,6 +71,30 @@ export default function User() {
   const userRegistrationDateFormatted = getYear(
     new Date(user!.userData.created_at)
   );
+
+  const readPagesCounter = user!.userRatings[0].ratings.reduce(
+    (accumulator, item) => {
+      accumulator.totalPagesRead += item.book.total_pages;
+
+      return accumulator;
+    },
+    { totalPagesRead: 0 }
+  );
+
+  const totalBooksRead = user!.userRatings[0].ratings.length;
+
+  const totalNumberOfAuthorsRead = () => {
+    let counter = 0;
+
+    for (let i = 0; i < user!.userRatings[0].ratings.length; i++) {
+      if (
+        user!.userRatings[0].ratings[i] !== user!.userRatings[0].ratings[i - 1]
+      ) {
+        counter += 1;
+      }
+    }
+    return counter;
+  };
 
   if (isFetching) {
     return <></>;
@@ -118,14 +143,14 @@ export default function User() {
               <Activity>
                 <BookOpen color="#50B2C0" size={32} />
                 <ActivityInfo>
-                  <strong>123</strong>
+                  <strong>{readPagesCounter.totalPagesRead}</strong>
                   <span>Páginas lidas</span>
                 </ActivityInfo>
               </Activity>
               <Activity>
                 <BooksIcon color="#50B2C0" size={32} />
                 <ActivityInfo>
-                  <strong>3</strong>
+                  <strong>{totalBooksRead}</strong>
                   <span>Livros avaliados</span>
                 </ActivityInfo>
               </Activity>
@@ -133,7 +158,7 @@ export default function User() {
               <Activity>
                 <UserList color="#50B2C0" size={32} />
                 <ActivityInfo>
-                  <strong>3</strong>
+                  <strong>{totalNumberOfAuthorsRead()}</strong>
                   <span>Autores lidos</span>
                 </ActivityInfo>
               </Activity>

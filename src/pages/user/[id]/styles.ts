@@ -51,6 +51,7 @@ export const UserInfo = styled("div", {
 
   strong: {
     fontSize: "$xl",
+    color: "$gray200",
   },
   span: {
     fontSize: "$sm",
