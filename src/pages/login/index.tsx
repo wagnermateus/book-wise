@@ -12,14 +12,21 @@ import {
   ImageContainer,
   OptionsContainer,
 } from "./styles";
-import { signIn } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
 export default function Login() {
   const router = useRouter();
-
+  const { data: session } = useSession();
   function handleSignIn(provider: string) {
     signIn(provider);
+  }
+  function handleLoginAsGuest() {
+    if (session) {
+      signOut();
+    }
+
+    router.push("/home");
   }
   return (
     <Container>
@@ -46,7 +53,7 @@ export default function Login() {
               <Image src={githubIcon} alt="Google icon" />
               Entrar com GitHub
             </Button>
-            <Button onClick={() => router.push("/home")}>
+            <Button onClick={handleLoginAsGuest}>
               <Image src={rocketIcon} alt="Google icon" />
               Acessar como visitante
             </Button>
