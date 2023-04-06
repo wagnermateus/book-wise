@@ -44,14 +44,13 @@ export const UserInfo = styled("div", {
   flexDirection: "column",
   alignItems: "center",
 
-  figure: {
+  a: {
     width: "4.5rem",
     marginBottom: "$6",
   },
 
   strong: {
     fontSize: "$xl",
-    color: "$gray200",
   },
   span: {
     fontSize: "$sm",

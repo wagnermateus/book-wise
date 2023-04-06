@@ -26,6 +26,7 @@ type RatingCardProps = {
   bookAuthor: string;
   summary: string;
   commentDate: Date;
+  userId?: string;
 };
 
 export function RatingCard({
@@ -37,6 +38,7 @@ export function RatingCard({
   userAvtarUrl,
   userName,
   commentDate,
+  userId,
 }: RatingCardProps) {
   const commentDateFormatted = formatDistanceToNow(new Date(commentDate), {
     addSuffix: true,
@@ -47,7 +49,12 @@ export function RatingCard({
     <Container>
       <Header>
         <AvatarImgContainer>
-          <UserAvatar size={38} alt="User profile picture" src={userAvtarUrl} />
+          <UserAvatar
+            size={38}
+            alt="User profile picture"
+            src={userAvtarUrl}
+            id={userId}
+          />
         </AvatarImgContainer>
         <UserNameAndRatingDate>
           <UserName>{userName}</UserName>

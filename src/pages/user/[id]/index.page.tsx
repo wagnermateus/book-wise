@@ -58,7 +58,11 @@ interface UserProps {
 }
 
 export default function User() {
-  const { data: user, isFetching } = useQuery<UserProps>(["user"], async () => {
+  const {
+    data: user,
+    isFetching,
+    isLoading,
+  } = useQuery<UserProps>(["user"], async () => {
     const response = await api.get("/user", {
       params: { id: router.query.id },
     });
@@ -68,10 +72,12 @@ export default function User() {
 
   const router = useRouter();
 
+  if (isFetching || isLoading) {
+    return;
+  }
   const userRegistrationDateFormatted = getYear(
     new Date(user!.userData.created_at)
   );
-
   const readPagesCounter = user!.userRatings[0].ratings.reduce(
     (accumulator, item) => {
       accumulator.totalPagesRead += item.book.total_pages;
@@ -96,76 +102,77 @@ export default function User() {
     return counter;
   };
 
-  if (isFetching) {
+  if (isFetching || isLoading) {
     return <></>;
-  }
-  return (
-    <Container>
-      <MenuBar />
-      <Content>
-        <Header>
-          <UserIcon size={26} color="#50B2C0" />
-          <h2>Perfil</h2>
-        </Header>
-        <Box>
-          <Ratings>
-            <SearchRatingInput
-              type="text"
-              placeholder="Buscar livro avaliado"
-            />
-            <Books>
-              {user!.userRatings[0].ratings.map((item) => {
-                return (
-                  <UserRating
-                    key={item.id}
-                    bookAuthor={item.book.author}
-                    bookCoverUrl={item.book.cover_url}
-                    bookTitle={item.book.name}
-                    comment={item.description}
-                    commentDate={item.created_at}
-                    rating={item.rate}
-                  />
-                );
-              })}
-            </Books>
-          </Ratings>
-          <UserProfile>
-            <UserInfo>
-              <UserAvatar
-                src={user!.userData.avatar_url}
-                alt="User profile image"
-                size={68}
+  } else {
+    return (
+      <Container>
+        <MenuBar />
+        <Content>
+          <Header>
+            <UserIcon size={26} color="#50B2C0" />
+            <h2>Perfil</h2>
+          </Header>
+          <Box>
+            <Ratings>
+              <SearchRatingInput
+                type="text"
+                placeholder="Buscar livro avaliado"
               />
-              <strong>{user!.userData.name}</strong>
-              <span>{`membro desde ${userRegistrationDateFormatted}`}</span>
-            </UserInfo>
-            <UserActivities>
-              <Activity>
-                <BookOpen color="#50B2C0" size={32} />
-                <ActivityInfo>
-                  <strong>{readPagesCounter.totalPagesRead}</strong>
-                  <span>Páginas lidas</span>
-                </ActivityInfo>
-              </Activity>
-              <Activity>
-                <BooksIcon color="#50B2C0" size={32} />
-                <ActivityInfo>
-                  <strong>{totalBooksRead}</strong>
-                  <span>Livros avaliados</span>
-                </ActivityInfo>
-              </Activity>
+              <Books>
+                {user!.userRatings[0].ratings.map((item) => {
+                  return (
+                    <UserRating
+                      key={item.id}
+                      bookAuthor={item.book.author}
+                      bookCoverUrl={item.book.cover_url}
+                      bookTitle={item.book.name}
+                      comment={item.description}
+                      commentDate={item.created_at}
+                      rating={item.rate}
+                    />
+                  );
+                })}
+              </Books>
+            </Ratings>
+            <UserProfile>
+              <UserInfo>
+                <UserAvatar
+                  src={user!.userData.avatar_url}
+                  alt="User profile image"
+                  size={68}
+                />
+                <strong>{user!.userData.name}</strong>
+                <span>{`membro desde ${userRegistrationDateFormatted}`}</span>
+              </UserInfo>
+              <UserActivities>
+                <Activity>
+                  <BookOpen color="#50B2C0" size={32} />
+                  <ActivityInfo>
+                    <strong>{readPagesCounter.totalPagesRead}</strong>
+                    <span>Páginas lidas</span>
+                  </ActivityInfo>
+                </Activity>
+                <Activity>
+                  <BooksIcon color="#50B2C0" size={32} />
+                  <ActivityInfo>
+                    <strong>{totalBooksRead}</strong>
+                    <span>Livros avaliados</span>
+                  </ActivityInfo>
+                </Activity>
 
-              <Activity>
-                <UserList color="#50B2C0" size={32} />
-                <ActivityInfo>
-                  <strong>{totalNumberOfAuthorsRead()}</strong>
-                  <span>Autores lidos</span>
-                </ActivityInfo>
-              </Activity>
-            </UserActivities>
-          </UserProfile>
-        </Box>
-      </Content>
-    </Container>
-  );
+                <Activity>
+                  <UserList color="#50B2C0" size={32} />
+                  <ActivityInfo>
+                    <strong>{totalNumberOfAuthorsRead()}</strong>
+                    <span>Autores lidos</span>
+                  </ActivityInfo>
+                </Activity>
+              </UserActivities>
+            </UserProfile>
+          </Box>
+        </Content>
+      </Container>
+    );
+  }
 }

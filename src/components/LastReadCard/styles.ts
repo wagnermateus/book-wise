@@ -1,6 +1,6 @@
 import { styled } from "@/styles/stitches.config";
 
-export const Container = styled("main", {
+export const Container = styled("article", {
   marginTop: "$4",
   display: "flex",
   gap: "$8",

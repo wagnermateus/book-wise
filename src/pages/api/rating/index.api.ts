@@ -16,6 +16,7 @@ export default async function handler(
           select: {
             avatar_url: true,
             name: true,
+            id: true,
           },
         },
         book: {

@@ -17,7 +17,7 @@ export const BooksContent = styled("div", {
   flexDirection: "column",
   gap: "$10",
 });
-export const LastBookRead = styled("div", {
+export const LastBookRead = styled("section", {
   main: { height: "auto" },
 
   ">div": {
@@ -26,7 +26,7 @@ export const LastBookRead = styled("div", {
     justifyContent: "space-between",
   },
 });
-export const LastRatings = styled("section", {
+export const LastRatings = styled("div", {
   maxWidth: "38rem",
 });
 
@@ -102,7 +102,7 @@ export const Text = styled("span", {
   lineHeight: "$base",
 });
 
-export const Ratings = styled("article", {
+export const Ratings = styled("section", {
   marginTop: "$4",
   display: "flex",
   flexDirection: "column",

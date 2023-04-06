@@ -23,7 +23,6 @@ import {
   Ratings,
   Text,
 } from "./styles";
-import { useRouter } from "next/router";
 
 interface HomeProps {
   popularBooks: [
@@ -45,6 +44,7 @@ type BooksRatingProps = {
   user: {
     avatar_url: string;
     name: string;
+    id: string;
   };
   book: {
     author: string;
@@ -90,8 +90,6 @@ export default function Home({ popularBooks }: HomeProps) {
       enabled: !!session,
     }
   );
-
-  const router = useRouter();
 
   useEffect(() => {
     api.get("/rating").then((response) => {
@@ -142,6 +140,7 @@ export default function Home({ popularBooks }: HomeProps) {
                       summary={rating.book.summary}
                       userAvtarUrl={rating.user.avatar_url}
                       userName={rating.user.name}
+                      userId={rating.user.id}
                     />
                   );
                 })}

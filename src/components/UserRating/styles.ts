@@ -1,6 +1,6 @@
 import { styled } from "@/styles/stitches.config";
 
-export const Container = styled("main", {
+export const Container = styled("article", {
   display: "flex",
   flexDirection: "column",
   gap: "$2",
