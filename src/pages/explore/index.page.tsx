@@ -70,7 +70,7 @@ export default function Explorer({ allBooks }: ExploreProps) {
     register,
     handleSubmit,
     watch,
-    formState: { isLoading },
+    formState: { isSubmitting },
   } = useForm<SearchBookFormData>({
     resolver: zodResolver(SearchBookFormSchema),
   });
@@ -124,7 +124,7 @@ export default function Explorer({ allBooks }: ExploreProps) {
               <SearchBookInput
                 type="text"
                 placeholder="Buscar livro ou autor"
-                disabled={isLoading}
+                disabled={isSubmitting}
                 {...register("titleOrAuthor")}
               />
             </form>
