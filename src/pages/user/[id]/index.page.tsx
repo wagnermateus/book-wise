@@ -8,6 +8,8 @@ import {
   User as UserIcon,
   Books as BooksIcon,
   UserList,
+  CaretRight,
+  CaretLeft,
 } from "phosphor-react";
 
 import {
@@ -15,6 +17,7 @@ import {
   ActivityInfo,
   Books,
   Box,
+  ButtonBack,
   Container,
   Content,
   Header,
@@ -26,6 +29,7 @@ import {
 } from "./styles";
 import { UserAvatar } from "@/components/UserAvatar";
 import { getYear } from "date-fns";
+import { useSession } from "next-auth/react";
 
 type RatingsProps = [
   {
@@ -72,6 +76,8 @@ export default function User() {
 
   const router = useRouter();
 
+  const session = useSession();
+
   if (isFetching || isLoading) {
     return;
   }
@@ -110,9 +116,18 @@ export default function User() {
         <MenuBar />
         <Content>
           <Header>
-            <UserIcon size={26} color="#50B2C0" />
-            <h2>Perfil</h2>
+            {session.data?.user.id !== router.query.id ? (
+              <ButtonBack href={"/home"}>
+                <CaretLeft size={16} /> Voltar
+              </ButtonBack>
+            ) : (
+              <>
+                <UserIcon size={26} color="#50B2C0" />
+                <h2>Perfil</h2>
+              </>
+            )}
           </Header>
+
           <Box>
             <Ratings>
               <SearchRatingInput

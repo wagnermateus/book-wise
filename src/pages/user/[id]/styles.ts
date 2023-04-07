@@ -1,4 +1,5 @@
 import { styled } from "@/styles/stitches.config";
+import Link from "next/link";
 
 export const Container = styled("div", {
   display: "flex",
@@ -44,7 +45,7 @@ export const UserInfo = styled("div", {
   flexDirection: "column",
   alignItems: "center",
 
-  a: {
+  figure: {
     width: "4.5rem",
     marginBottom: "$6",
   },
@@ -103,4 +104,30 @@ export const Books = styled("div", {
   display: "flex",
   flexDirection: "column",
   gap: "$6",
+});
+
+export const ButtonBack = styled(Link, {
+  all: "unset",
+
+  width: "6rem",
+  height: "1.875rem",
+
+  color: "$purple100",
+  fontWeight: "$bold",
+  fontSize: "$sm",
+  padding: "0.25rem 0.5rem",
+
+  borderRadius: "$sm",
+  cursor: "pointer",
+
+  display: "flex",
+
+  alignItems: "center",
+  justifyContent: "center",
+
+  transition: "all 0.5s",
+
+  "&:hover": {
+    backgroundColor: "rgba(131,129,217, 0.1)",
+  },
 });
