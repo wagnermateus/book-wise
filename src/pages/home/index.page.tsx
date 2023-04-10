@@ -1,7 +1,7 @@
 import { BookCard } from "@/components/BookCard";
-import { LastReadCard } from "@/components/LastReadCard";
+
 import { MenuBar } from "@/components/MenuBar";
-import { RatingCard } from "@/components/RatingCard";
+
 import { api } from "@/lib/axios";
 import { GetStaticProps } from "next";
 import { useSession } from "next-auth/react";
@@ -23,6 +23,8 @@ import {
   Ratings,
   Text,
 } from "./styles";
+import { LastReadCard } from "./components/LastReadCard";
+import { RatingCard } from "./components/RatingCard";
 
 interface HomeProps {
   popularBooks: [

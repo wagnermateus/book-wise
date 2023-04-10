@@ -11,7 +11,7 @@ import {
   RatingDate,
   TitleAndAuthor,
 } from "./styles";
-import { RatingStars } from "../RatingStars";
+import { RatingStars } from "@/components/RatingStars";
 
 interface LastReadProps {
   lastRead: {

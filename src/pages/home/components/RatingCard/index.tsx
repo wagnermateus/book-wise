@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { UserAvatar } from "../UserAvatar";
+
 import { formatDistanceToNow } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
 
@@ -15,7 +15,8 @@ import {
   UserName,
   UserNameAndRatingDate,
 } from "./styles";
-import { RatingStars } from "../RatingStars";
+import { RatingStars } from "@/components/RatingStars";
+import { UserAvatar } from "@/components/UserAvatar";
 
 type RatingCardProps = {
   userAvtarUrl: string;

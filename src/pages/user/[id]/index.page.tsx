@@ -1,5 +1,4 @@
 import { MenuBar } from "@/components/MenuBar";
-import { UserRating } from "@/components/UserRating";
 import { api } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
@@ -33,6 +32,7 @@ import zod from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
+import { UserRating } from "../components/UserRating";
 
 type RatingsProps = [
   {
