@@ -89,6 +89,7 @@ export default function User() {
     data: user,
     isFetching,
     isLoading,
+    isSuccess,
   } = useQuery<UserProps>(["user"], async () => {
     const response = await api.get("/user", {
       params: { id: router.query.id },
@@ -122,14 +123,14 @@ export default function User() {
     }
   }, [thereIsNoSearch]);
 
-  if (isFetching || isLoading) {
+  if (!isSuccess) {
     return;
   }
 
-  const ratings = user!.userRatings[0].ratings;
+  const ratings = user.userRatings[0].ratings;
 
   const userRegistrationDateFormatted = getYear(
-    new Date(user!.userData.created_at)
+    new Date(user.userData.created_at)
   );
   const readPagesCounter = ratings.reduce(
     (accumulator, item) => {
@@ -223,11 +224,11 @@ export default function User() {
           <UserProfile>
             <UserInfo>
               <UserAvatar
-                src={user!.userData.avatar_url}
+                src={user.userData.avatar_url}
                 alt="User profile image"
                 size={68}
               />
-              <strong>{user!.userData.name}</strong>
+              <strong>{user.userData.name}</strong>
               <span>{`membro desde ${userRegistrationDateFormatted}`}</span>
             </UserInfo>
             <UserActivities>

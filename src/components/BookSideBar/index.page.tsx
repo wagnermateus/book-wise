@@ -1,7 +1,17 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { Book } from "./components/Book";
-import { CloseButton, Content, Overlay } from "./styles";
+import {
+  CloseButton,
+  Content,
+  Overlay,
+  RateButton,
+  RatingHeader,
+  RatingsContainer,
+  RatingsContent,
+} from "./styles";
 import { X } from "phosphor-react";
+import { BookRating } from "./components/BookRating";
+import { useSession } from "next-auth/react";
 
 export interface BookSideBarProps {
   id: string;
@@ -25,10 +35,12 @@ export interface BookSideBarProps {
       user: {
         avatar_url: string;
         name: string;
+        id: string;
       };
       created_at: Date;
       description: string;
       rate: number;
+      id: string;
     }
   ];
 }
@@ -43,6 +55,17 @@ export function BookSideBar({
   _count,
   ratings,
 }: BookSideBarProps) {
+  const session = useSession();
+
+  if (!ratings) {
+    return <></>;
+  }
+
+  const userHasAlreadyRatedTheBook =
+    ratings.filter((item) => {
+      return item.user.id === session.data?.user.id;
+    }).length === 1;
+
   return (
     <Dialog.Portal>
       <Overlay />
@@ -60,6 +83,31 @@ export function BookSideBar({
           _count={_count}
           ratings={ratings}
         />
+
+        <RatingsContainer>
+          <RatingHeader>
+            <span>Avaliações</span>
+            {!userHasAlreadyRatedTheBook && <RateButton>Avaliar</RateButton>}
+          </RatingHeader>
+          <RatingsContent>
+            {ratings.length > 0 ? (
+              ratings?.map((rating) => {
+                return (
+                  <BookRating
+                    key={rating.id}
+                    commentDate={rating.created_at}
+                    summary={rating.description}
+                    userAvtarUrl={rating.user.avatar_url}
+                    userName={rating.user.name}
+                    rating={rating.rate}
+                  />
+                );
+              })
+            ) : (
+              <strong> Seja o primeiro a avaliar este livro!</strong>
+            )}
+          </RatingsContent>
+        </RatingsContainer>
       </Content>
     </Dialog.Portal>
   );

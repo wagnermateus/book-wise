@@ -18,6 +18,17 @@ export const globalStyles = globalCss({
     fontWeight: 400,
   },
 
+  "::-webkit-scrollbar": {
+    background: "$gray700",
+    width: "0.375rem",
+    borderRadius: "$full",
+  },
+
+  "::-webkit-scrollbar-thumb": {
+    background: "$gray600",
+    borderRadius: "$full",
+  },
+
   "@media(max-width: 768px)": {
     html: {
       fontSize: "87%",

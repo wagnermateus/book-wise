@@ -28,9 +28,9 @@ export function BookCard({ id, author, cover_url, name, ratings }: BookProps) {
   );
   async function handleViewBook() {
     const response = await api.get("/book", { params: { bookid: id } });
-
     setBookData(response.data);
   }
+
   return (
     <Dialog.Root>
       <Dialog.Trigger asChild>

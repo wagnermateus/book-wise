@@ -16,7 +16,6 @@ export default async function handler(
           select: {
             avatar_url: true,
             name: true,
-            id: true,
           },
         },
         book: {
@@ -30,6 +29,7 @@ export default async function handler(
         rate: true,
         description: true,
         created_at: true,
+        id: true,
       },
       orderBy: {
         created_at: "desc",
