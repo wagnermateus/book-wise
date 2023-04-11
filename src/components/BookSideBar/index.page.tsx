@@ -12,7 +12,8 @@ import {
 import { X } from "phosphor-react";
 import { BookRating } from "./components/BookRating";
 import { useSession } from "next-auth/react";
-
+import { RatingBox } from "./components/RatingBox";
+import { useState } from "react";
 export interface BookSideBarProps {
   id: string;
   author: string;
@@ -55,6 +56,8 @@ export function BookSideBar({
   _count,
   ratings,
 }: BookSideBarProps) {
+  const [ratingBoxIsNotOpen, setRatingBoxIsNotOpen] = useState(true);
+
   const session = useSession();
 
   if (!ratings) {
@@ -65,6 +68,15 @@ export function BookSideBar({
     ratings.filter((item) => {
       return item.user.id === session.data?.user.id;
     }).length === 1;
+
+  const userLoggedIn = !!session.data?.user;
+
+  function handleRate() {
+    setRatingBoxIsNotOpen(!ratingBoxIsNotOpen);
+  }
+  function handleCancelRate(status: boolean) {
+    setRatingBoxIsNotOpen(status);
+  }
 
   return (
     <Dialog.Portal>
@@ -87,9 +99,15 @@ export function BookSideBar({
         <RatingsContainer>
           <RatingHeader>
             <span>Avaliações</span>
-            {!userHasAlreadyRatedTheBook && <RateButton>Avaliar</RateButton>}
+            {!userHasAlreadyRatedTheBook && (
+              <RateButton onClick={handleRate}>Avaliar</RateButton>
+            )}
           </RatingHeader>
           <RatingsContent>
+            {!ratingBoxIsNotOpen && (
+              <RatingBox bookId={id} onCancelRate={handleCancelRate} />
+            )}
+
             {ratings.length > 0 ? (
               ratings?.map((rating) => {
                 return (
@@ -100,6 +118,7 @@ export function BookSideBar({
                     userAvtarUrl={rating.user.avatar_url}
                     userName={rating.user.name}
                     rating={rating.rate}
+                    userId={rating.user.id}
                   />
                 );
               })
