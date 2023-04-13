@@ -8,6 +8,16 @@ type RatingStarsProps = {
 
 export function RatingStars({ starSize, rating }: RatingStarsProps) {
   switch (rating) {
+    case 0:
+      return (
+        <Container>
+          <Star size={starSize} color="#8381D9" />
+          <Star size={starSize} color="#8381D9" />
+          <Star size={starSize} color="#8381D9" />
+          <Star size={starSize} color="#8381D9" />
+          <Star size={starSize} color="#8381D9" />
+        </Container>
+      );
     case 1:
       return (
         <Container>

@@ -63,5 +63,13 @@ export const Buttons = styled("div", {
     "&:hover": {
       opacity: 0.6,
     },
+
+    "&:disabled": {
+      cursor: "not-allowed",
+
+      "&:hover": {
+        opacity: 1,
+      },
+    },
   },
 });

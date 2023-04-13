@@ -41,6 +41,9 @@ export default async function handler(
             rate: true,
             description: true,
           },
+          orderBy: {
+            created_at: "desc",
+          },
         },
       },
       where: {
