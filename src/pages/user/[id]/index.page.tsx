@@ -33,6 +33,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { UserRating } from "../components/UserRating";
+import { Loading } from "@/components/Loading";
 
 type RatingsProps = [
   {
@@ -123,8 +124,8 @@ export default function User() {
     }
   }, [thereIsNoSearch]);
 
-  if (!isSuccess) {
-    return;
+  if (!user?.userRatings[0]) {
+    return <Loading />;
   }
 
   const ratings = user.userRatings[0].ratings;
@@ -162,7 +163,7 @@ export default function User() {
   }
 
   if (isFetching || isLoading) {
-    return <></>;
+    return <Loading />;
   }
   return (
     <Container>

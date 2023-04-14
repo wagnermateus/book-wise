@@ -15,6 +15,7 @@ import { useSession } from "next-auth/react";
 import { RatingBox } from "./components/RatingBox";
 import { useState } from "react";
 import { LoginBox } from "../LoginBox";
+import { Loading } from "../Loading";
 export interface BookSideBarProps {
   id: string;
   author: string;
@@ -62,7 +63,7 @@ export function BookSideBar({
   const session = useSession();
 
   if (!ratings) {
-    return <></>;
+    return <Loading />;
   }
 
   const userHasAlreadyRatedTheBook =
@@ -70,10 +71,10 @@ export function BookSideBar({
       return item.user.id === session.data?.user.id;
     }).length === 1;
 
-  const userLoggedIn = !!session.data?.user;
+  const userIsLoggedIn = !!session.data?.user;
 
   function handleRate() {
-    if (!userLoggedIn) {
+    if (!userIsLoggedIn) {
       return;
     }
     setRatingBoxIsNotOpen(!ratingBoxIsNotOpen);
@@ -110,7 +111,7 @@ export function BookSideBar({
                   <RateButton onClick={handleRate}>Avaliar</RateButton>
                 </Dialog.Trigger>
               )}
-              {!userLoggedIn && <LoginBox />}
+              {!userIsLoggedIn && <LoginBox />}
             </Dialog.Root>
           </RatingHeader>
           <RatingsContent>

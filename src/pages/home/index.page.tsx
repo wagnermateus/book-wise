@@ -25,6 +25,7 @@ import {
 } from "./styles";
 import { LastReadCard } from "./components/LastReadCard";
 import { RatingCard } from "./components/RatingCard";
+import { Loading } from "@/components/Loading";
 
 interface HomeProps {
   popularBooks: [
@@ -78,7 +79,11 @@ export default function Home({ popularBooks }: HomeProps) {
 
   const [booksRating, setBooksRating] = useState<BooksRatingProps[]>([]);
 
-  const { data: lastRead, isFetching } = useQuery<LastReadProps>(
+  const {
+    data: lastRead,
+    isFetching,
+    isLoading,
+  } = useQuery<LastReadProps>(
     ["lastRead"],
 
     async () => {
@@ -99,8 +104,8 @@ export default function Home({ popularBooks }: HomeProps) {
     });
   }, []);
 
-  if (isFetching) {
-    return <></>;
+  if (isFetching || isLoading) {
+    return <Loading />;
   }
 
   return (

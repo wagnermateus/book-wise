@@ -80,7 +80,7 @@ export function RatingBox({ bookId, onCancelRate }: RatingProps) {
       });
     }
   }
-  console.log(totalRatedStars);
+
   async function onRating(data: RatingFormData) {
     api.post("/rating/createRating", {
       bookid: bookId,
