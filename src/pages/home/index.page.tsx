@@ -57,6 +57,7 @@ type BooksRatingProps = {
   };
   rate: number;
   created_at: Date;
+  id: string;
 };
 
 interface LastReadProps {
@@ -104,10 +105,16 @@ export default function Home({ popularBooks }: HomeProps) {
     });
   }, []);
 
-  if (isFetching || isLoading) {
-    return <Loading />;
+  if (userIsAuthenticated) {
+    if (isFetching || isLoading) {
+      return <Loading />;
+    }
   }
-
+  if (!userIsAuthenticated) {
+    if (!booksRating) {
+      return <Loading />;
+    }
+  }
   return (
     <Container>
       <MenuBar />
@@ -138,7 +145,7 @@ export default function Home({ popularBooks }: HomeProps) {
                 {booksRating.map((rating) => {
                   return (
                     <RatingCard
-                      key={rating.book.summary}
+                      key={rating.id}
                       bookAuthor={rating.book.author}
                       bookCoverUrl={rating.book.cover_url}
                       bookTitle={rating.book.name}

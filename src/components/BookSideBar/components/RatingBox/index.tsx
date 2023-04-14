@@ -85,15 +85,22 @@ export function RatingBox({ bookId, onCancelRate }: RatingProps) {
     }
   }
 
-  async function onRating(data: RatingFormData) {
-    api.post("/rating/createRating", {
-      bookid: bookId,
-      userid: session.data?.user.id,
-      description: data.description,
-      rate: totalRatedStars.length,
-    });
-
+  function onRating(data: RatingFormData) {
+    rate(data);
     handleViewBook(bookId);
+  }
+
+  async function rate(data: RatingFormData) {
+    try {
+      api.post("/rating/createRating", {
+        bookid: bookId,
+        userid: session.data?.user.id,
+        description: data.description,
+        rate: totalRatedStars.length,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (

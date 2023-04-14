@@ -32,6 +32,7 @@ export default async function handler(
             created_at: true,
             description: true,
             rate: true,
+            id: true,
           },
         },
         _count: {

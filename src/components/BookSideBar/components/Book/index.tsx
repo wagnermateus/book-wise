@@ -97,7 +97,7 @@ export function Book({
             <div>
               {categories?.map((item) => {
                 return (
-                  <strong key={id}>
+                  <strong key={item.category.name}>
                     {categories.indexOf(item) !== categories.length - 1
                       ? `${item.category.name}, `
                       : `${item.category.name}. `}

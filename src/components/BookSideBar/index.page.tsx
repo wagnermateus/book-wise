@@ -15,7 +15,7 @@ import { useSession } from "next-auth/react";
 import { RatingBox } from "./components/RatingBox";
 import { useContext, useState } from "react";
 import { LoginBox } from "../LoginBox";
-import { Loading } from "../Loading";
+
 import { bookContext } from "@/contexts/BookContexts";
 
 export interface BookSideBarProps {
@@ -56,7 +56,7 @@ export function BookSideBar() {
 
   const session = useSession();
 
-  if (!bookData) {
+  if (!bookData.ratings) {
     return <></>;
   }
 
