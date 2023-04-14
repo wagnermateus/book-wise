@@ -14,6 +14,7 @@ import { BookRating } from "./components/BookRating";
 import { useSession } from "next-auth/react";
 import { RatingBox } from "./components/RatingBox";
 import { useState } from "react";
+import { LoginBox } from "../LoginBox";
 export interface BookSideBarProps {
   id: string;
   author: string;
@@ -72,6 +73,9 @@ export function BookSideBar({
   const userLoggedIn = !!session.data?.user;
 
   function handleRate() {
+    if (!userLoggedIn) {
+      return;
+    }
     setRatingBoxIsNotOpen(!ratingBoxIsNotOpen);
   }
   function handleCancelRate(status: boolean) {
@@ -99,9 +103,15 @@ export function BookSideBar({
         <RatingsContainer>
           <RatingHeader>
             <span>Avaliações</span>
-            {!userHasAlreadyRatedTheBook && (
-              <RateButton onClick={handleRate}>Avaliar</RateButton>
-            )}
+
+            <Dialog.Root>
+              {!userHasAlreadyRatedTheBook && (
+                <Dialog.Trigger asChild>
+                  <RateButton onClick={handleRate}>Avaliar</RateButton>
+                </Dialog.Trigger>
+              )}
+              {!userLoggedIn && <LoginBox />}
+            </Dialog.Root>
           </RatingHeader>
           <RatingsContent>
             {!ratingBoxIsNotOpen && (

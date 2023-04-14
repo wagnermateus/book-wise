@@ -1,5 +1,4 @@
 import { styled } from "@/styles/stitches.config";
-import Link from "next/link";
 
 export const Container = styled("button", {
   all: "unset",
