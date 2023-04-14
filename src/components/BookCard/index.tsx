@@ -2,9 +2,9 @@ import { BookInfo, Container, ImageContainer, TitleAndAuthor } from "./styles";
 import Image from "next/image";
 import { RatingStars } from "../RatingStars";
 import * as Dialog from "@radix-ui/react-dialog";
-import { api } from "@/lib/axios";
-import { BookSideBar, BookSideBarProps } from "../BookSideBar/index.page";
-import { useState } from "react";
+import { BookSideBar } from "../BookSideBar/index.page";
+import { useContext } from "react";
+import { bookContext } from "@/contexts/BookContexts";
 
 type BookProps = {
   id: string;
@@ -15,9 +15,7 @@ type BookProps = {
 };
 
 export function BookCard({ id, author, cover_url, name, ratings }: BookProps) {
-  const [bookData, setBookData] = useState<BookSideBarProps>(
-    {} as BookSideBarProps
-  );
+  const { bookData, handleViewBook } = useContext(bookContext);
 
   const sumOfRatings = ratings?.reduce(
     (accumulator, item) => {
@@ -26,15 +24,11 @@ export function BookCard({ id, author, cover_url, name, ratings }: BookProps) {
     },
     { rate: 0 }
   );
-  async function handleViewBook() {
-    const response = await api.get("/book", { params: { bookid: id } });
-    setBookData(response.data);
-  }
 
   return (
     <Dialog.Root>
       <Dialog.Trigger asChild>
-        <Container onClick={handleViewBook}>
+        <Container onClick={() => handleViewBook(id)}>
           <ImageContainer>
             <Image
               src={cover_url}
@@ -56,16 +50,7 @@ export function BookCard({ id, author, cover_url, name, ratings }: BookProps) {
           </BookInfo>
         </Container>
       </Dialog.Trigger>
-      <BookSideBar
-        id={bookData.id}
-        name={bookData.name}
-        author={bookData.author}
-        cover_url={bookData.cover_url}
-        total_pages={bookData.total_pages}
-        categories={bookData.categories}
-        _count={bookData._count}
-        ratings={bookData.ratings}
-      />
+      <BookSideBar />
     </Dialog.Root>
   );
 }

@@ -13,9 +13,11 @@ import { X } from "phosphor-react";
 import { BookRating } from "./components/BookRating";
 import { useSession } from "next-auth/react";
 import { RatingBox } from "./components/RatingBox";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { LoginBox } from "../LoginBox";
 import { Loading } from "../Loading";
+import { bookContext } from "@/contexts/BookContexts";
+
 export interface BookSideBarProps {
   id: string;
   author: string;
@@ -48,26 +50,18 @@ export interface BookSideBarProps {
   ];
 }
 
-export function BookSideBar({
-  id,
-  name,
-  author,
-  cover_url,
-  total_pages,
-  categories,
-  _count,
-  ratings,
-}: BookSideBarProps) {
+export function BookSideBar() {
+  const { bookData } = useContext(bookContext);
   const [ratingBoxIsNotOpen, setRatingBoxIsNotOpen] = useState(true);
 
   const session = useSession();
 
-  if (!ratings) {
-    return <Loading />;
+  if (!bookData) {
+    return <></>;
   }
 
   const userHasAlreadyRatedTheBook =
-    ratings.filter((item) => {
+    bookData.ratings.filter((item) => {
       return item.user.id === session.data?.user.id;
     }).length === 1;
 
@@ -91,14 +85,14 @@ export function BookSideBar({
           <X color="#8D95AF" size={24} />
         </CloseButton>
         <Book
-          id={id}
-          name={name}
-          author={author}
-          cover_url={cover_url}
-          total_pages={total_pages}
-          categories={categories}
-          _count={_count}
-          ratings={ratings}
+          id={bookData.id}
+          name={bookData.name}
+          author={bookData.author}
+          cover_url={bookData.cover_url}
+          total_pages={bookData.total_pages}
+          categories={bookData.categories}
+          _count={bookData._count}
+          ratings={bookData.ratings}
         />
 
         <RatingsContainer>
@@ -116,11 +110,11 @@ export function BookSideBar({
           </RatingHeader>
           <RatingsContent>
             {!ratingBoxIsNotOpen && (
-              <RatingBox bookId={id} onCancelRate={handleCancelRate} />
+              <RatingBox bookId={bookData.id} onCancelRate={handleCancelRate} />
             )}
 
-            {ratings.length > 0 ? (
-              ratings?.map((rating) => {
+            {bookData.ratings.length > 0 ? (
+              bookData.ratings?.map((rating) => {
                 return (
                   <BookRating
                     key={rating.id}

@@ -14,7 +14,9 @@ import { useForm } from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { api } from "@/lib/axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { Loading } from "@/components/Loading";
+import { bookContext } from "@/contexts/BookContexts";
 
 const RatingFormSchema = z.object({
   description: z.string().min(4),
@@ -36,6 +38,8 @@ type StarsProps = {
 };
 
 export function RatingBox({ bookId, onCancelRate }: RatingProps) {
+  const { handleViewBook } = useContext(bookContext);
+
   const [stars, setStars] = useState<StarsProps>({
     1: false,
     2: false,
@@ -63,7 +67,7 @@ export function RatingBox({ bookId, onCancelRate }: RatingProps) {
   }, [isSubmitSuccessful, onCancelRate, watch]);
 
   if (!session.data) {
-    return <></>;
+    return <Loading />;
   }
   function handleStars(position: keyof StarsProps) {
     if (stars[position] === false) {
@@ -88,6 +92,8 @@ export function RatingBox({ bookId, onCancelRate }: RatingProps) {
       description: data.description,
       rate: totalRatedStars.length,
     });
+
+    handleViewBook(bookId);
   }
 
   return (
