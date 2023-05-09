@@ -4,8 +4,6 @@ export const Container = styled("article", {
   display: "flex",
   flexDirection: "column",
   gap: "$8",
-  //maxWidth: "38rem",
-  height: "17.5rem",
   backgroundColor: "$gray700",
   padding: "$6",
   borderRadius: "$md",
@@ -43,6 +41,12 @@ export const RatingDate = styled("span", {
 export const Book = styled("div", {
   display: "flex",
   gap: "$5",
+
+  "@media(max-width: 769px)": {
+    flexDirection: " column",
+    alignItems: "center",
+    gap: "$8",
+  },
 });
 
 export const CoverContainer = styled("figure", {

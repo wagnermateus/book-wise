@@ -19,6 +19,7 @@ import {
   SearchBookInput,
 } from "./styles";
 import { ChangeEvent, useEffect, useState } from "react";
+import { prisma } from "@/lib/prisma";
 
 interface ExploreProps {
   allBooks: [
@@ -238,8 +239,30 @@ export default function Explorer({ allBooks }: ExploreProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const response = await api.get("book/allBooks");
-  const allBooks = response.data;
+  const allBooks = await prisma.book.findMany({
+    select: {
+      id: true,
+      name: true,
+      author: true,
+      cover_url: true,
+
+      ratings: {
+        select: {
+          rate: true,
+        },
+      },
+      categories: {
+        select: {
+          category: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
   return {
     props: {
       allBooks,

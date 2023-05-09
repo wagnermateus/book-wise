@@ -7,7 +7,6 @@ export const Container = styled("button", {
   alignItems: "center",
 
   gap: "$5",
-  maxWidth: "100%",
   backgroundColor: "$gray700",
   padding: "$4 $5",
   borderRadius: "$md",

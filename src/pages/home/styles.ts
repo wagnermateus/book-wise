@@ -3,6 +3,13 @@ import Link from "next/link";
 
 export const Container = styled("div", {
   display: "flex",
+
+  "@media(max-width:950px)": {
+    padding: "4rem",
+    ">nav": {
+      visibility: "collapse",
+    },
+  },
 });
 
 export const Content = styled("main", {
@@ -10,16 +17,24 @@ export const Content = styled("main", {
   display: "flex",
   flexDirection: "column",
   marginLeft: "6rem",
+
+  "@media(max-width:1020px)": {
+    marginLeft: "2rem",
+  },
+
+  "@media(max-width:950px)": {
+    width: "100%",
+    marginLeft: 0,
+    flex: 0,
+  },
 });
 export const BooksContent = styled("div", {
-  maxWidth: "38rem",
   display: "flex",
   flexDirection: "column",
   gap: "$10",
 });
 export const LastBookRead = styled("section", {
-  main: { height: "auto" },
-
+  maxWidth: "38rem",
   ">div": {
     display: "flex",
     alignItems: "center",
@@ -43,6 +58,13 @@ export const PopularBooks = styled("aside", {
     alignItems: "center",
     justifyContent: "space-between",
   },
+  "@media(max-width:1300px)": {
+    maxWidth: "38rem",
+    marginLeft: "0",
+  },
+  "@media(max-width:950px)": {
+    maxWidth: "100%",
+  },
 });
 export const PopularBooksList = styled("div", {
   width: "100%",
@@ -54,6 +76,10 @@ export const PopularBooksList = styled("div", {
   img: {
     minWidth: "4rem",
     height: "5.875rem",
+  },
+  "@media(max-width:1300px)": {
+    flexDirection: "row",
+    overflowX: "auto",
   },
 });
 
@@ -87,6 +113,10 @@ export const Books = styled("div", {
   display: "flex",
   flexDirection: "row",
   alignItems: "flex-start",
+
+  "@media(max-width:1300px)": {
+    flexDirection: "column-reverse",
+  },
 });
 
 export const Header = styled("header", {

@@ -26,6 +26,8 @@ import {
 import { LastReadCard } from "./components/LastReadCard";
 import { RatingCard } from "./components/RatingCard";
 import { Loading } from "@/components/Loading";
+import { MobileMenuButton } from "@/components/MobileMenuButton";
+import { prisma } from "@/lib/prisma";
 
 interface HomeProps {
   popularBooks: [
@@ -119,6 +121,7 @@ export default function Home({ popularBooks }: HomeProps) {
     <Container>
       <MenuBar />
       <Content>
+        <MobileMenuButton />
         <Header>
           <ChartLineUp size={24} color="#50B2C0" />
           <h2>Início</h2>
@@ -190,8 +193,26 @@ export default function Home({ popularBooks }: HomeProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const popularBooksResponse = await api.get("/book/popularBooks");
-  const popularBooks = popularBooksResponse.data;
+  const popularBooks = await prisma.book.findMany({
+    select: {
+      author: true,
+      name: true,
+      cover_url: true,
+      id: true,
+
+      ratings: {
+        select: {
+          rate: true,
+        },
+      },
+    },
+    orderBy: {
+      ratings: {
+        _count: "desc",
+      },
+    },
+    take: 3,
+  });
 
   return {
     props: {

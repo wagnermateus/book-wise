@@ -13,6 +13,8 @@ export const Container = styled("nav", {
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
+
+  transition: "all 0.5s",
 });
 
 export const NavList = styled("ul", {
@@ -22,6 +24,10 @@ export const NavList = styled("ul", {
   display: "flex",
   flexDirection: "column",
   gap: "$4",
+
+  "@media(max-width:950px)": {
+    marginBottom: "20rem",
+  },
 });
 
 export const NavItem = styled("li", {

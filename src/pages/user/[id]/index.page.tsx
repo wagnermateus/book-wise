@@ -90,7 +90,6 @@ export default function User() {
     data: user,
     isFetching,
     isLoading,
-    isSuccess,
   } = useQuery<UserProps>(["user"], async () => {
     const response = await api.get("/user", {
       params: { id: router.query.id },

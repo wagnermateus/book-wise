@@ -4,10 +4,15 @@ export const Container = styled("article", {
   marginTop: "$4",
   display: "flex",
   gap: "$8",
-  height: "auto",
+
   backgroundColor: "$gray700",
   padding: "$6",
   borderRadius: "$md",
+
+  "@media(max-width: 769px)": {
+    flexDirection: " column-reverse",
+    alignItems: "center",
+  },
 });
 
 export const Header = styled("header", {
