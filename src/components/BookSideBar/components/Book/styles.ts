@@ -2,8 +2,7 @@ import { styled } from "@/styles/stitches.config";
 
 export const Container = styled("article", {
   marginTop: "4rem",
-  width: "35.25rem",
-  height: "25rem",
+
   display: "flex",
   flexDirection: "column",
   gap: "$10",

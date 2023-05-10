@@ -12,7 +12,7 @@ export const Content = styled(Dialog.Content, {
   position: "fixed",
   top: 0,
   right: 0,
-  width: "41rem",
+  maxWidth: "41rem",
   background: "$gray800",
 
   display: "flex",
